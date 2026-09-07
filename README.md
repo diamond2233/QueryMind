@@ -1,43 +1,39 @@
 # QueryMind
 
-QueryMind is an AI-powered chatbot project that uses Retrieval-Augmented Generation (RAG) and Google Gemini models to answer questions over structured business data. The project demonstrates how natural language can be used to interact with datasets through semantic retrieval, contextual reasoning, and LLM-generated responses.
+QueryMind is a natural-language-to-SQL project: it takes a plain-English question, uses an
+OpenAI chat model to translate it into a SQL query, runs that query against a MySQL database,
+and turns the result back into a plain-language answer.
 
 ## Features
 
-* Natural language querying over business datasets
-* Gemini-powered conversational interface
-* Retrieval-Augmented Generation (RAG) workflow
-* Semantic search over CSV-based data
-* RAG evaluation with RAGAS
-* Agentic AI workflow experimentation
-* Jupyter notebook-based implementation
+* Natural language question &rarr; SQL query generation
+* Live execution against a MySQL database
+* Natural-language answer generation from the SQL result
+* Automated quality evaluation with [RAGAS](https://docs.ragas.io/) (context precision, helpfulness)
+* Built with LangChain Expression Language (LCEL) — no agents, no RAG, no vector store
 
 ## Project Structure
 
-* `Gemini Chatbot.ipynb` – Main chatbot implementation using Gemini
-* `Gemini Chatbot (including RAGAS).ipynb` – Chatbot with evaluation using RAGAS
-* `Agentic Approach.ipynb` – Agentic workflow exploration
-* `gemini.ipynb` – Additional Gemini-based experimentation
-* `Data_CSV/` – Business datasets used by the project
-* `data_dump/` – Additional dataset files
+* `querymind_openai.ipynb` – The project: SQL generation, execution, answer generation, and RAGAS evaluation, in one notebook
+* `Data_CSV/` – Source CSV files loaded into the MySQL `text_to_sql` database (budgets, customers, products, regions, sales orders, state/region mapping)
 
 ## Tech Stack
 
 * Python
 * Jupyter Notebook
-* Google Gemini API
-* Retrieval-Augmented Generation (RAG)
-* RAGAS
-* Pandas
-* NumPy
-* CSV-based data processing
+* OpenAI API (`gpt-4.1-mini`)
+* LangChain / LangChain Expression Language (LCEL)
+* MySQL (via `SQLAlchemy` + `PyMySQL`)
+* RAGAS (evaluation)
 
 ## How It Works
 
-1. The user enters a question in natural language.
-2. Relevant data is retrieved from the available CSV files.
-3. The retrieved context is passed to Gemini.
-4. Gemini generates a response based on both the query and the retrieved data.
+1. The user asks a question in natural language.
+2. The live database schema is retrieved and given to the model as context.
+3. The model (`gpt-4.1-mini`) generates a SQL query for the question.
+4. The query runs against the MySQL database.
+5. The model turns the raw SQL result into a concise natural-language answer.
+6. A small held-out question set is scored with RAGAS to sanity-check SQL-generation quality.
 
 ## Setup
 
@@ -51,20 +47,23 @@ QueryMind is an AI-powered chatbot project that uses Retrieval-Augmented Generat
 2. Install dependencies:
 
    ```bash
-   pip install -r requirements.txt
+   pip install langchain langchain-openai "langchain-community==0.3.31" openai pymysql sqlalchemy "ragas==0.3.9" ipykernel
    ```
 
-3. Add your Gemini API key in a `.env` file or notebook environment variable.
+3. Have a MySQL server running locally with a `text_to_sql` database (see `Data_CSV/` for the source data).
 
-4. Run the notebooks in Jupyter:
+4. Set your OpenAI API key as an environment variable (or let the notebook prompt for it via `getpass`):
 
    ```bash
-   jupyter notebook
+   export OPENAI_API_KEY="sk-..."
    ```
+
+5. Open and run `querymind_openai.ipynb` top to bottom in Jupyter or VS Code.
 
 ## Note
 
-This project is best explored through the notebooks included in the repository. Make sure to keep API keys and private files out of version control.
+Keep API keys and database credentials out of version control — the notebook reads them from
+environment variables or an interactive `getpass` prompt, never hardcoded.
 
 ## License
 
