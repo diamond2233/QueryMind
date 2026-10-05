@@ -60,7 +60,10 @@ matters:
   Product 26 sold 50,364 units against Product 25's 50,358. That's close, but it's not a tie.
 - **"Region" means two things.** The `regions` table is really a list of *places* (cities,
   towns), while `state_regions` has the four *parts of the country* (South, West, Northeast,
-  Midwest). The questions say "places" or "part of the country" so there is no confusion.
+  Midwest). The questions mostly say "places" or "part of the country" so there is no
+  confusion. One question, q03 ("Which states belong to the Northeast region?"), does use the
+  word "region". That's fine, because "Northeast" only exists as a part of the country, never
+  as a place, so the question can only be read one way.
 - **Sales data is 2021 to February 2025, budgets are only for 2017.** No question compares
   budget with sales, because those years don't overlap.
 
