@@ -1,0 +1,167 @@
+{
+  "model": "gpt-4.1-mini",
+  "date": "2026-10-05T17:33:14",
+  "split": "all",
+  "runs": 3,
+  "max_repairs": 2,
+  "number_of_questions": 30,
+  "correct_per_run": [
+    "29 of 30",
+    "29 of 30",
+    "29 of 30"
+  ],
+  "median_correct": "29 of 30",
+  "exact_per_run": [
+    26,
+    26,
+    26
+  ],
+  "extra_columns_per_run": [
+    3,
+    3,
+    3
+  ],
+  "by_difficulty": {
+    "easy": {
+      "correct_per_run": [
+        "8 of 8",
+        "8 of 8",
+        "8 of 8"
+      ],
+      "median_correct": "8 of 8"
+    },
+    "medium": {
+      "correct_per_run": [
+        "8 of 8",
+        "8 of 8",
+        "8 of 8"
+      ],
+      "median_correct": "8 of 8"
+    },
+    "join": {
+      "correct_per_run": [
+        "8 of 8",
+        "8 of 8",
+        "8 of 8"
+      ],
+      "median_correct": "8 of 8"
+    },
+    "hard": {
+      "correct_per_run": [
+        "5 of 6",
+        "5 of 6",
+        "5 of 6"
+      ],
+      "median_correct": "5 of 6"
+    }
+  },
+  "by_split": {
+    "dev": {
+      "correct_per_run": [
+        "10 of 10",
+        "10 of 10",
+        "10 of 10"
+      ],
+      "median_correct": "10 of 10"
+    },
+    "test": {
+      "correct_per_run": [
+        "19 of 20",
+        "19 of 20",
+        "19 of 20"
+      ],
+      "median_correct": "19 of 20"
+    }
+  },
+  "label_counts": {
+    "correct": 78,
+    "correct_extra_columns": 9,
+    "wrong_result": 3,
+    "sql_error": 0,
+    "unsafe_sql": 0,
+    "generation_error": 0
+  },
+  "label_counts_per_run": [
+    {
+      "correct": 26,
+      "correct_extra_columns": 3,
+      "wrong_result": 1,
+      "sql_error": 0,
+      "unsafe_sql": 0,
+      "generation_error": 0
+    },
+    {
+      "correct": 26,
+      "correct_extra_columns": 3,
+      "wrong_result": 1,
+      "sql_error": 0,
+      "unsafe_sql": 0,
+      "generation_error": 0
+    },
+    {
+      "correct": 26,
+      "correct_extra_columns": 3,
+      "wrong_result": 1,
+      "sql_error": 0,
+      "unsafe_sql": 0,
+      "generation_error": 0
+    }
+  ],
+  "needed_repair_per_run": [
+    4,
+    2,
+    3
+  ],
+  "fixed_by_repair_per_run": [
+    4,
+    2,
+    3
+  ],
+  "average_llm_calls_per_question": 1.1,
+  "average_seconds_per_question": 1.28,
+  "changed_between_runs": [],
+  "changed_vs_baseline": [
+    {
+      "id": "q17",
+      "direction": "better",
+      "baseline_labels": [
+        "sql_error",
+        "sql_error",
+        "sql_error"
+      ],
+      "new_labels": [
+        "correct",
+        "correct",
+        "correct"
+      ]
+    },
+    {
+      "id": "q22",
+      "direction": "better",
+      "baseline_labels": [
+        "sql_error",
+        "sql_error",
+        "sql_error"
+      ],
+      "new_labels": [
+        "correct",
+        "correct",
+        "correct"
+      ]
+    },
+    {
+      "id": "q25",
+      "direction": "better",
+      "baseline_labels": [
+        "sql_error",
+        "sql_error",
+        "sql_error"
+      ],
+      "new_labels": [
+        "correct",
+        "correct",
+        "correct"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2780 @@
+[
+  {
+    "run": 1,
+    "id": "q01",
+    "difficulty": "easy",
+    "split": "dev",
+    "question": "What was the 2017 budget for Product 5?",
+    "final_sql": "SELECT `2017 Budgets` FROM `2017_budgets` WHERE `Product Name` = 'Product 5' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        3925424.54
+      ]
+    ],
+    "seconds": 2.61,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        3925424.54
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q02",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "What is the name of customer number 42?",
+    "final_sql": "SELECT `Customer Names` FROM customers WHERE `Customer Index` = 42 LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Colgate-Pa Group"
+      ]
+    ],
+    "seconds": 1.0,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Colgate-Pa Group"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q03",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "Which states belong to the Northeast region?",
+    "final_sql": "SELECT `State` FROM state_regions WHERE `Region` = 'Northeast' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 8,
+    "first_rows": [
+      [
+        "Connecticut"
+      ],
+      [
+        "Massachusetts"
+      ],
+      [
+        "Maine"
+      ]
+    ],
+    "seconds": 0.89,
+    "gold_row_count": 8,
+    "gold_first_rows": [
+      [
+        "Connecticut"
+      ],
+      [
+        "Massachusetts"
+      ],
+      [
+        "Maine"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q04",
+    "difficulty": "easy",
+    "split": "dev",
+    "question": "How many people live in Auburn, Alabama?",
+    "final_sql": "SELECT population FROM regions WHERE name = 'Auburn' AND state = 'Alabama' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        62059.0
+      ]
+    ],
+    "seconds": 0.92,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        62059.0
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q05",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "Which time zone is Birmingham, Alabama in?",
+    "final_sql": "SELECT time_zone FROM regions WHERE name = 'Birmingham' AND state = 'Alabama' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "America/Chicago"
+      ]
+    ],
+    "seconds": 0.96,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "America/Chicago"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q06",
+    "difficulty": "easy",
+    "split": "dev",
+    "question": "Which sales channels do we sell through?",
+    "final_sql": "SELECT DISTINCT Channel FROM sales_order LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 3,
+    "first_rows": [
+      [
+        "Wholesale"
+      ],
+      [
+        "Distributor"
+      ],
+      [
+        "Export"
+      ]
+    ],
+    "seconds": 0.97,
+    "gold_row_count": 3,
+    "gold_first_rows": [
+      [
+        "Wholesale"
+      ],
+      [
+        "Distributor"
+      ],
+      [
+        "Export"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q07",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "Which products had a 2017 budget of more than 5 million?",
+    "final_sql": "SELECT `Product Name` FROM `2017_budgets` WHERE `2017 Budgets` > 5000000 LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 2,
+    "first_rows": [
+      [
+        "Product 25"
+      ],
+      [
+        "Product 26"
+      ]
+    ],
+    "seconds": 0.93,
+    "gold_row_count": 2,
+    "gold_first_rows": [
+      [
+        "Product 25"
+      ],
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q08",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "What is the two-letter code for the state of Texas?",
+    "final_sql": "SELECT `State Code` FROM state_regions WHERE State = 'Texas' LIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "TX"
+      ]
+    ],
+    "seconds": 0.99,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "TX"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q09",
+    "difficulty": "medium",
+    "split": "dev",
+    "question": "How many customers do we have?",
+    "final_sql": "SELECT COUNT(*) FROM customers LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        175.0
+      ]
+    ],
+    "seconds": 0.81,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        175.0
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q10",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "What was the total 2017 budget for all products together?",
+    "final_sql": "SELECT SUM(`2017 Budgets`) AS total_2017_budget FROM `2017_budgets` LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        62700262.34
+      ]
+    ],
+    "seconds": 0.89,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        62700262.34
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q11",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "How many order lines were sold through the Export channel?",
+    "final_sql": "SELECT COUNT(*) FROM sales_order WHERE Channel = 'Export' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        9540.0
+      ]
+    ],
+    "seconds": 0.99,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        9540.0
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q12",
+    "difficulty": "medium",
+    "split": "dev",
+    "question": "What were our total sales in 2023?",
+    "final_sql": "SELECT SUM(`Line Total`) AS total_sales_2023 FROM sales_order WHERE OrderDate LIKE '2023%' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        298083670.0
+      ]
+    ],
+    "seconds": 0.96,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        298083670.0
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q13",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "Which warehouse handled the most order lines?",
+    "final_sql": "SELECT `Warehouse Code`, COUNT(*) AS `order_line_count` FROM `sales_order` GROUP BY `Warehouse Code` ORDER BY `order_line_count` DESC LIMIT 1",
+    "label": "correct_extra_columns",
+    "attempts": 2,
+    "error_history": [
+      {
+        "sql": "SELECT Warehouse Code, COUNT(*) AS order_line_count FROM sales_order GROUP BY Warehouse Code ORDER BY order_line_count DESC LIMIT 1",
+        "code": 1064,
+        "message": "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Code ORDER BY order_line_count DESC LIMIT 1' at line 1"
+      }
+    ],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "AXW291",
+        30204.0
+      ]
+    ],
+    "seconds": 2.45,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "AXW291"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q14",
+    "difficulty": "medium",
+    "split": "dev",
+    "question": "How many states, including Washington DC, are listed in each part of the country?",
+    "final_sql": "SELECT Region, COUNT(DISTINCT `State Code`) AS NumberOfStates\nFROM state_regions\nGROUP BY Region LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 4,
+    "first_rows": [
+      [
+        "Midwest",
+        12.0
+      ],
+      [
+        "Northeast",
+        8.0
+      ],
+      [
+        "South",
+        16.0
+      ]
+    ],
+    "seconds": 0.88,
+    "gold_row_count": 4,
+    "gold_first_rows": [
+      [
+        "South",
+        16.0
+      ],
+      [
+        "West",
+        12.0
+      ],
+      [
+        "Northeast",
+        8.0
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q15",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "What is the average median income of the places we have in California?",
+    "final_sql": "SELECT AVG(median_income) AS average_median_income FROM regions WHERE state = 'California' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        67015.81
+      ]
+    ],
+    "seconds": 1.1,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        67015.81
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q16",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "How many order lines did we have in January 2024?",
+    "final_sql": "SELECT COUNT(*) FROM sales_order WHERE OrderDate LIKE '2024-01%' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        1234.0
+      ]
+    ],
+    "seconds": 0.99,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        1234.0
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q17",
+    "difficulty": "join",
+    "split": "dev",
+    "question": "What were our total sales to Geiss Company?",
+    "final_sql": "SELECT SUM(`Line Total`) AS `total_sales` FROM `sales_order` so JOIN `customers` c ON so.`Customer Name Index` = c.`Customer Index` WHERE c.`Customer Names` = 'Geiss Company' LIMIT 100",
+    "label": "correct",
+    "attempts": 2,
+    "error_history": [
+      {
+        "sql": "SELECT SUM(Line Total) AS total_sales FROM sales_order so JOIN customers c ON so.`Customer Name Index` = c.`Customer Index` WHERE c.`Customer Names` = 'Geiss Company'",
+        "code": 1064,
+        "message": "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Total) AS total_sales FROM sales_order so JOIN customers c ON so.`Customer Name ' at line 1"
+      }
+    ],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        5516847.0
+      ]
+    ],
+    "seconds": 2.26,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        5516847.0
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q18",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which product has sold the most units overall?",
+    "final_sql": "SELECT p.`Product Name` \nFROM sales_order s\nJOIN products p ON s.`Product Description Index` = p.`Index`\nGROUP BY p.`Product Name`\nORDER BY SUM(s.`Order Quantity`) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Product 26"
+      ]
+    ],
+    "seconds": 1.21,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q19",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which part of the country (South, West, Northeast or Midwest) is Auburn, Alabama in?",
+    "final_sql": "SELECT Region FROM state_regions WHERE `State Code` = (SELECT state_code FROM regions WHERE name = 'Auburn' AND state = 'Alabama') LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "South"
+      ]
+    ],
+    "seconds": 1.01,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "South"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q20",
+    "difficulty": "join",
+    "split": "dev",
+    "question": "How many of the places we have are in the Midwest?",
+    "final_sql": "SELECT COUNT(*) FROM regions WHERE id IN (SELECT id FROM regions JOIN state_regions ON regions.state_code = state_regions.`State Code` WHERE state_regions.Region = 'Midwest') LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        258.0
+      ]
+    ],
+    "seconds": 1.12,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        258.0
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q21",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which customer had the most order lines in 2024?",
+    "final_sql": "SELECT c.`Customer Names`\nFROM sales_order s\nJOIN customers c ON s.`Customer Name Index` = c.`Customer Index`\nWHERE s.OrderDate LIKE '2024%'\nGROUP BY c.`Customer Names`\nORDER BY COUNT(*) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Aibox Company"
+      ]
+    ],
+    "seconds": 1.18,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Aibox Company"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q22",
+    "difficulty": "join",
+    "split": "test",
+    "question": "What were our total sales delivered to places in Texas?",
+    "final_sql": "SELECT SUM(s.`Line Total`) AS `total_sales` FROM `sales_order` s JOIN `regions` r ON s.`Delivery Region Index` = r.`id` WHERE r.`state_code` = 'TX' LIMIT 100",
+    "label": "correct",
+    "attempts": 2,
+    "error_history": [
+      {
+        "sql": "SELECT SUM(s.Line Total) AS total_sales\nFROM sales_order s\nJOIN regions r ON s.`Delivery Region Index` = r.id\nWHERE r.state_code = 'TX'",
+        "code": 1064,
+        "message": "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Total) AS total_sales\nFROM sales_order s\nJOIN regions r ON s.`Delivery Region In' at line 1"
+      }
+    ],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        84011903.0
+      ]
+    ],
+    "seconds": 2.17,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        84011903.0
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q23",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which product had the highest sales in 2022?",
+    "final_sql": "SELECT p.`Product Name`\nFROM sales_order s\nJOIN products p ON s.`Product Description Index` = p.`Index`\nWHERE s.OrderDate LIKE '2022%'\nGROUP BY p.`Product Name`\nORDER BY SUM(s.`Line Total`) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Product 26"
+      ]
+    ],
+    "seconds": 1.31,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q24",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Who are our top 3 customers by total sales?",
+    "final_sql": "SELECT c.`Customer Names`, SUM(s.`Line Total`) AS total_sales\nFROM sales_order s\nJOIN customers c ON s.`Customer Name Index` = c.`Customer Index`\nGROUP BY c.`Customer Names`\nORDER BY total_sales DESC\nLIMIT 3",
+    "label": "correct_extra_columns",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 3,
+    "first_rows": [
+      [
+        "Aibox Company",
+        12641251.8
+      ],
+      [
+        "State Ltd",
+        12220639.2
+      ],
+      [
+        "Pixoboo Corp",
+        10986459.0
+      ]
+    ],
+    "seconds": 1.39,
+    "gold_row_count": 3,
+    "gold_first_rows": [
+      [
+        "Aibox Company"
+      ],
+      [
+        "State Ltd"
+      ],
+      [
+        "Pixoboo Corp"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q25",
+    "difficulty": "hard",
+    "split": "dev",
+    "question": "What were our total sales in each part of the country (South, West, Northeast, Midwest)?",
+    "final_sql": "SELECT `sr`.`Region`, SUM(`so`.`Line Total`) AS `Total_Sales`\nFROM `sales_order` `so`\nJOIN `regions` `r` ON `so`.`Delivery Region Index` = `r`.`id`\nJOIN `state_regions` `sr` ON `r`.`state_code` = `sr`.`State Code`\nGROUP BY `sr`.`Region` LIMIT 100",
+    "label": "correct",
+    "attempts": 2,
+    "error_history": [
+      {
+        "sql": "SELECT sr.Region, SUM(so.Line Total) AS Total_Sales\nFROM sales_order so\nJOIN regions r ON so.`Delivery Region Index` = r.id\nJOIN state_regions sr ON r.state_code = sr.`State Code`\nGROUP BY sr.Region",
+        "code": 1064,
+        "message": "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Total) AS Total_Sales\nFROM sales_order so\nJOIN regions r ON so.`Delivery Region ' at line 1"
+      }
+    ],
+    "error_code": null,
+    "error": null,
+    "row_count": 4,
+    "first_rows": [
+      [
+        "South",
+        335135011.7
+      ],
+      [
+        "Midwest",
+        320322363.6
+      ],
+      [
+        "West",
+        372142307.6
+      ]
+    ],
+    "seconds": 2.5,
+    "gold_row_count": 4,
+    "gold_first_rows": [
+      [
+        "South",
+        335135011.7
+      ],
+      [
+        "Midwest",
+        320322363.6
+      ],
+      [
+        "West",
+        372142307.6
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q26",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "Which customers have more than 500 order lines in total?",
+    "final_sql": "SELECT c.`Customer Names`\nFROM sales_order s\nJOIN customers c ON s.`Customer Name Index` = c.`Customer Index`\nGROUP BY c.`Customer Names`\nHAVING COUNT(*) > 500 LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 4,
+    "first_rows": [
+      [
+        "Kare Corp"
+      ],
+      [
+        "Talane Group"
+      ],
+      [
+        "Aibox Company"
+      ]
+    ],
+    "seconds": 1.37,
+    "gold_row_count": 4,
+    "gold_first_rows": [
+      [
+        "Kare Corp"
+      ],
+      [
+        "Talane Group"
+      ],
+      [
+        "Aibox Company"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q27",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "Which product sold the most units in the West?",
+    "final_sql": "SELECT p.`Product Name`, SUM(so.`Order Quantity`) AS total_units_sold\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nJOIN regions r ON so.`Delivery Region Index` = r.id\nJOIN state_regions sr ON r.state_code = sr.`State Code`\nWHERE sr.Region = 'West'\nGROUP BY p.`Product Name`\nORDER BY total_units_sold DESC\nLIMIT 1",
+    "label": "correct_extra_columns",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Product 26",
+        15316.0
+      ]
+    ],
+    "seconds": 1.53,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q28",
+    "difficulty": "hard",
+    "split": "dev",
+    "question": "Who was our biggest customer by sales in the South in 2024?",
+    "final_sql": "SELECT c.`Customer Names`\nFROM sales_order so\nJOIN customers c ON so.`Customer Name Index` = c.`Customer Index`\nJOIN regions r ON so.`Delivery Region Index` = r.id\nJOIN state_regions sr ON r.state_code = sr.`State Code`\nWHERE sr.Region = 'South' AND so.OrderDate LIKE '2024%'\nGROUP BY c.`Customer Names`\nORDER BY SUM(so.`Line Total`) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "WOCKHARDT Group"
+      ]
+    ],
+    "seconds": 1.65,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "WOCKHARDT Group"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q29",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "Which products had a total sales amount above the average product's total sales amount?",
+    "final_sql": "SELECT p.`Product Name`\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nGROUP BY p.`Product Name`\nHAVING SUM(so.`Line Total`) > (\n    SELECT AVG(product_total)\n    FROM (\n        SELECT SUM(so2.`Line Total`) AS product_total\n        FROM sales_order so2\n        GROUP BY so2.`Product Description Index`\n    ) AS product_totals\n) LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 11,
+    "first_rows": [
+      [
+        "Product 26"
+      ],
+      [
+        "Product 1"
+      ],
+      [
+        "Product 25"
+      ]
+    ],
+    "seconds": 1.58,
+    "gold_row_count": 11,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ],
+      [
+        "Product 1"
+      ],
+      [
+        "Product 25"
+      ]
+    ]
+  },
+  {
+    "run": 1,
+    "id": "q30",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "For each sales channel, which product brought in the most sales?",
+    "final_sql": "SELECT so.Channel, p.`Product Name`, SUM(so.`Line Total`) AS total_sales\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nGROUP BY so.Channel, p.`Product Name`\nORDER BY so.Channel, total_sales DESC LIMIT 100",
+    "label": "wrong_result",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 90,
+    "first_rows": [
+      [
+        "Distributor",
+        "Product 25",
+        38915368.8
+      ],
+      [
+        "Distributor",
+        "Product 26",
+        31313146.8
+      ],
+      [
+        "Distributor",
+        "Product 14",
+        24129688.2
+      ]
+    ],
+    "seconds": 1.49,
+    "gold_row_count": 3,
+    "gold_first_rows": [
+      [
+        "Distributor",
+        "Product 25"
+      ],
+      [
+        "Export",
+        "Product 26"
+      ],
+      [
+        "Wholesale",
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q01",
+    "difficulty": "easy",
+    "split": "dev",
+    "question": "What was the 2017 budget for Product 5?",
+    "final_sql": "SELECT `2017 Budgets` FROM `2017_budgets` WHERE `Product Name` = 'Product 5' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        3925424.54
+      ]
+    ],
+    "seconds": 0.93,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        3925424.54
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q02",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "What is the name of customer number 42?",
+    "final_sql": "SELECT `Customer Names` FROM customers WHERE `Customer Index` = 42 LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Colgate-Pa Group"
+      ]
+    ],
+    "seconds": 0.88,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Colgate-Pa Group"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q03",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "Which states belong to the Northeast region?",
+    "final_sql": "SELECT `State` FROM state_regions WHERE `Region` = 'Northeast' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 8,
+    "first_rows": [
+      [
+        "Connecticut"
+      ],
+      [
+        "Massachusetts"
+      ],
+      [
+        "Maine"
+      ]
+    ],
+    "seconds": 0.87,
+    "gold_row_count": 8,
+    "gold_first_rows": [
+      [
+        "Connecticut"
+      ],
+      [
+        "Massachusetts"
+      ],
+      [
+        "Maine"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q04",
+    "difficulty": "easy",
+    "split": "dev",
+    "question": "How many people live in Auburn, Alabama?",
+    "final_sql": "SELECT population FROM regions WHERE name = 'Auburn' AND state = 'Alabama' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        62059.0
+      ]
+    ],
+    "seconds": 1.28,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        62059.0
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q05",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "Which time zone is Birmingham, Alabama in?",
+    "final_sql": "SELECT time_zone FROM regions WHERE name = 'Birmingham' AND state = 'Alabama' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "America/Chicago"
+      ]
+    ],
+    "seconds": 1.13,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "America/Chicago"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q06",
+    "difficulty": "easy",
+    "split": "dev",
+    "question": "Which sales channels do we sell through?",
+    "final_sql": "SELECT DISTINCT Channel FROM sales_order LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 3,
+    "first_rows": [
+      [
+        "Wholesale"
+      ],
+      [
+        "Distributor"
+      ],
+      [
+        "Export"
+      ]
+    ],
+    "seconds": 0.88,
+    "gold_row_count": 3,
+    "gold_first_rows": [
+      [
+        "Wholesale"
+      ],
+      [
+        "Distributor"
+      ],
+      [
+        "Export"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q07",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "Which products had a 2017 budget of more than 5 million?",
+    "final_sql": "SELECT `Product Name` FROM `2017_budgets` WHERE `2017 Budgets` > 5000000 LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 2,
+    "first_rows": [
+      [
+        "Product 25"
+      ],
+      [
+        "Product 26"
+      ]
+    ],
+    "seconds": 1.2,
+    "gold_row_count": 2,
+    "gold_first_rows": [
+      [
+        "Product 25"
+      ],
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q08",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "What is the two-letter code for the state of Texas?",
+    "final_sql": "SELECT `State Code` FROM state_regions WHERE State = 'Texas' LIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "TX"
+      ]
+    ],
+    "seconds": 0.96,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "TX"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q09",
+    "difficulty": "medium",
+    "split": "dev",
+    "question": "How many customers do we have?",
+    "final_sql": "SELECT COUNT(*) FROM customers LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        175.0
+      ]
+    ],
+    "seconds": 1.05,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        175.0
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q10",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "What was the total 2017 budget for all products together?",
+    "final_sql": "SELECT SUM(`2017 Budgets`) AS total_2017_budget FROM `2017_budgets` LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        62700262.34
+      ]
+    ],
+    "seconds": 0.88,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        62700262.34
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q11",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "How many order lines were sold through the Export channel?",
+    "final_sql": "SELECT COUNT(*) FROM sales_order WHERE Channel = 'Export' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        9540.0
+      ]
+    ],
+    "seconds": 1.03,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        9540.0
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q12",
+    "difficulty": "medium",
+    "split": "dev",
+    "question": "What were our total sales in 2023?",
+    "final_sql": "SELECT SUM(`Line Total`) AS total_sales_2023 FROM sales_order WHERE OrderDate LIKE '2023%' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        298083670.0
+      ]
+    ],
+    "seconds": 1.13,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        298083670.0
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q13",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "Which warehouse handled the most order lines?",
+    "final_sql": "SELECT `Warehouse Code`, COUNT(*) AS order_lines_count FROM sales_order GROUP BY `Warehouse Code` ORDER BY order_lines_count DESC LIMIT 1",
+    "label": "correct_extra_columns",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "AXW291",
+        30204.0
+      ]
+    ],
+    "seconds": 1.43,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "AXW291"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q14",
+    "difficulty": "medium",
+    "split": "dev",
+    "question": "How many states, including Washington DC, are listed in each part of the country?",
+    "final_sql": "SELECT Region, COUNT(DISTINCT `State Code`) AS NumberOfStates FROM state_regions GROUP BY Region LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 4,
+    "first_rows": [
+      [
+        "Midwest",
+        12.0
+      ],
+      [
+        "Northeast",
+        8.0
+      ],
+      [
+        "South",
+        16.0
+      ]
+    ],
+    "seconds": 0.96,
+    "gold_row_count": 4,
+    "gold_first_rows": [
+      [
+        "South",
+        16.0
+      ],
+      [
+        "West",
+        12.0
+      ],
+      [
+        "Northeast",
+        8.0
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q15",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "What is the average median income of the places we have in California?",
+    "final_sql": "SELECT AVG(median_income) AS average_median_income FROM regions WHERE state = 'California' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        67015.81
+      ]
+    ],
+    "seconds": 1.03,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        67015.81
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q16",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "How many order lines did we have in January 2024?",
+    "final_sql": "SELECT COUNT(*) FROM sales_order WHERE OrderDate LIKE '2024-01%' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        1234.0
+      ]
+    ],
+    "seconds": 1.19,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        1234.0
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q17",
+    "difficulty": "join",
+    "split": "dev",
+    "question": "What were our total sales to Geiss Company?",
+    "final_sql": "SELECT SUM(`Line Total`) AS `total_sales` FROM `sales_order` so JOIN `customers` c ON so.`Customer Name Index` = c.`Customer Index` WHERE c.`Customer Names` = 'Geiss Company' LIMIT 100",
+    "label": "correct",
+    "attempts": 2,
+    "error_history": [
+      {
+        "sql": "SELECT SUM(Line Total) AS total_sales FROM sales_order so JOIN customers c ON so.`Customer Name Index` = c.`Customer Index` WHERE c.`Customer Names` = 'Geiss Company'",
+        "code": 1064,
+        "message": "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Total) AS total_sales FROM sales_order so JOIN customers c ON so.`Customer Name ' at line 1"
+      }
+    ],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        5516847.0
+      ]
+    ],
+    "seconds": 2.36,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        5516847.0
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q18",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which product has sold the most units overall?",
+    "final_sql": "SELECT p.`Product Name` \nFROM sales_order s\nJOIN products p ON s.`Product Description Index` = p.`Index`\nGROUP BY p.`Product Name`\nORDER BY SUM(s.`Order Quantity`) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Product 26"
+      ]
+    ],
+    "seconds": 1.22,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q19",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which part of the country (South, West, Northeast or Midwest) is Auburn, Alabama in?",
+    "final_sql": "SELECT Region FROM state_regions WHERE `State Code` = (SELECT state_code FROM regions WHERE name = 'Auburn' AND state = 'Alabama') LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "South"
+      ]
+    ],
+    "seconds": 1.15,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "South"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q20",
+    "difficulty": "join",
+    "split": "dev",
+    "question": "How many of the places we have are in the Midwest?",
+    "final_sql": "SELECT COUNT(*) FROM regions WHERE state_code IN (SELECT `State Code` FROM state_regions WHERE Region = 'Midwest') LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        258.0
+      ]
+    ],
+    "seconds": 0.97,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        258.0
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q21",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which customer had the most order lines in 2024?",
+    "final_sql": "SELECT c.`Customer Names`\nFROM sales_order s\nJOIN customers c ON s.`Customer Name Index` = c.`Customer Index`\nWHERE s.OrderDate LIKE '2024%'\nGROUP BY c.`Customer Names`\nORDER BY COUNT(*) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Aibox Company"
+      ]
+    ],
+    "seconds": 1.31,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Aibox Company"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q22",
+    "difficulty": "join",
+    "split": "test",
+    "question": "What were our total sales delivered to places in Texas?",
+    "final_sql": "SELECT SUM(s.`Line Total`) AS total_sales FROM `sales_order` s JOIN `regions` r ON s.`Delivery Region Index` = r.`id` WHERE r.`state_code` = 'TX' LIMIT 100",
+    "label": "correct",
+    "attempts": 2,
+    "error_history": [
+      {
+        "sql": "SELECT SUM(s.Line Total) AS total_sales\nFROM sales_order s\nJOIN regions r ON s.`Delivery Region Index` = r.id\nWHERE r.state_code = 'TX'",
+        "code": 1064,
+        "message": "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Total) AS total_sales\nFROM sales_order s\nJOIN regions r ON s.`Delivery Region In' at line 1"
+      }
+    ],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        84011903.0
+      ]
+    ],
+    "seconds": 2.18,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        84011903.0
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q23",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which product had the highest sales in 2022?",
+    "final_sql": "SELECT p.`Product Name`\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nWHERE so.OrderDate LIKE '2022%'\nGROUP BY p.`Product Name`\nORDER BY SUM(so.`Line Total`) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Product 26"
+      ]
+    ],
+    "seconds": 1.54,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q24",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Who are our top 3 customers by total sales?",
+    "final_sql": "SELECT c.`Customer Names`, SUM(s.`Line Total`) AS total_sales\nFROM sales_order s\nJOIN customers c ON s.`Customer Name Index` = c.`Customer Index`\nGROUP BY c.`Customer Names`\nORDER BY total_sales DESC\nLIMIT 3",
+    "label": "correct_extra_columns",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 3,
+    "first_rows": [
+      [
+        "Aibox Company",
+        12641251.8
+      ],
+      [
+        "State Ltd",
+        12220639.2
+      ],
+      [
+        "Pixoboo Corp",
+        10986459.0
+      ]
+    ],
+    "seconds": 1.43,
+    "gold_row_count": 3,
+    "gold_first_rows": [
+      [
+        "Aibox Company"
+      ],
+      [
+        "State Ltd"
+      ],
+      [
+        "Pixoboo Corp"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q25",
+    "difficulty": "hard",
+    "split": "dev",
+    "question": "What were our total sales in each part of the country (South, West, Northeast, Midwest)?",
+    "final_sql": "SELECT sr.Region, SUM(so.`Line Total`) AS Total_Sales\nFROM sales_order so\nJOIN regions r ON so.`Delivery Region Index` = r.id\nJOIN state_regions sr ON r.state_code = sr.`State Code`\nGROUP BY sr.Region LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 4,
+    "first_rows": [
+      [
+        "South",
+        335135011.7
+      ],
+      [
+        "Midwest",
+        320322363.6
+      ],
+      [
+        "West",
+        372142307.6
+      ]
+    ],
+    "seconds": 1.37,
+    "gold_row_count": 4,
+    "gold_first_rows": [
+      [
+        "South",
+        335135011.7
+      ],
+      [
+        "Midwest",
+        320322363.6
+      ],
+      [
+        "West",
+        372142307.6
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q26",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "Which customers have more than 500 order lines in total?",
+    "final_sql": "SELECT c.`Customer Names`\nFROM sales_order s\nJOIN customers c ON s.`Customer Name Index` = c.`Customer Index`\nGROUP BY c.`Customer Names`\nHAVING COUNT(*) > 500 LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 4,
+    "first_rows": [
+      [
+        "Kare Corp"
+      ],
+      [
+        "Talane Group"
+      ],
+      [
+        "Aibox Company"
+      ]
+    ],
+    "seconds": 1.3,
+    "gold_row_count": 4,
+    "gold_first_rows": [
+      [
+        "Kare Corp"
+      ],
+      [
+        "Talane Group"
+      ],
+      [
+        "Aibox Company"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q27",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "Which product sold the most units in the West?",
+    "final_sql": "SELECT p.`Product Name`, SUM(so.`Order Quantity`) AS total_units_sold\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nJOIN regions r ON so.`Delivery Region Index` = r.id\nJOIN state_regions sr ON r.state_code = sr.`State Code`\nWHERE sr.Region = 'West'\nGROUP BY p.`Product Name`\nORDER BY total_units_sold DESC\nLIMIT 1",
+    "label": "correct_extra_columns",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Product 26",
+        15316.0
+      ]
+    ],
+    "seconds": 1.44,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q28",
+    "difficulty": "hard",
+    "split": "dev",
+    "question": "Who was our biggest customer by sales in the South in 2024?",
+    "final_sql": "SELECT c.`Customer Names`\nFROM sales_order so\nJOIN customers c ON so.`Customer Name Index` = c.`Customer Index`\nJOIN regions r ON so.`Delivery Region Index` = r.id\nJOIN state_regions sr ON r.state_code = sr.`State Code`\nWHERE sr.Region = 'South' AND so.OrderDate LIKE '2024%'\nGROUP BY c.`Customer Names`\nORDER BY SUM(so.`Line Total`) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "WOCKHARDT Group"
+      ]
+    ],
+    "seconds": 1.58,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "WOCKHARDT Group"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q29",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "Which products had a total sales amount above the average product's total sales amount?",
+    "final_sql": "SELECT p.`Product Name`\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nGROUP BY p.`Product Name`\nHAVING SUM(so.`Line Total`) > (\n    SELECT AVG(product_total)\n    FROM (\n        SELECT SUM(so2.`Line Total`) AS product_total\n        FROM sales_order so2\n        GROUP BY so2.`Product Description Index`\n    ) AS product_totals\n) LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 11,
+    "first_rows": [
+      [
+        "Product 26"
+      ],
+      [
+        "Product 1"
+      ],
+      [
+        "Product 25"
+      ]
+    ],
+    "seconds": 1.71,
+    "gold_row_count": 11,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ],
+      [
+        "Product 1"
+      ],
+      [
+        "Product 25"
+      ]
+    ]
+  },
+  {
+    "run": 2,
+    "id": "q30",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "For each sales channel, which product brought in the most sales?",
+    "final_sql": "SELECT so.Channel, p.`Product Name`, SUM(so.`Line Total`) AS total_sales\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nGROUP BY so.Channel, p.`Product Name`\nORDER BY so.Channel, total_sales DESC LIMIT 100",
+    "label": "wrong_result",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 90,
+    "first_rows": [
+      [
+        "Distributor",
+        "Product 25",
+        38915368.8
+      ],
+      [
+        "Distributor",
+        "Product 26",
+        31313146.8
+      ],
+      [
+        "Distributor",
+        "Product 14",
+        24129688.2
+      ]
+    ],
+    "seconds": 1.55,
+    "gold_row_count": 3,
+    "gold_first_rows": [
+      [
+        "Distributor",
+        "Product 25"
+      ],
+      [
+        "Export",
+        "Product 26"
+      ],
+      [
+        "Wholesale",
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q01",
+    "difficulty": "easy",
+    "split": "dev",
+    "question": "What was the 2017 budget for Product 5?",
+    "final_sql": "SELECT `2017 Budgets` FROM `2017_budgets` WHERE `Product Name` = 'Product 5' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        3925424.54
+      ]
+    ],
+    "seconds": 1.01,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        3925424.54
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q02",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "What is the name of customer number 42?",
+    "final_sql": "SELECT `Customer Names` FROM customers WHERE `Customer Index` = 42 LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Colgate-Pa Group"
+      ]
+    ],
+    "seconds": 1.01,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Colgate-Pa Group"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q03",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "Which states belong to the Northeast region?",
+    "final_sql": "SELECT `State` FROM state_regions WHERE `Region` = 'Northeast' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 8,
+    "first_rows": [
+      [
+        "Connecticut"
+      ],
+      [
+        "Massachusetts"
+      ],
+      [
+        "Maine"
+      ]
+    ],
+    "seconds": 1.02,
+    "gold_row_count": 8,
+    "gold_first_rows": [
+      [
+        "Connecticut"
+      ],
+      [
+        "Massachusetts"
+      ],
+      [
+        "Maine"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q04",
+    "difficulty": "easy",
+    "split": "dev",
+    "question": "How many people live in Auburn, Alabama?",
+    "final_sql": "SELECT population FROM regions WHERE name = 'Auburn' AND state = 'Alabama' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        62059.0
+      ]
+    ],
+    "seconds": 0.88,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        62059.0
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q05",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "Which time zone is Birmingham, Alabama in?",
+    "final_sql": "SELECT time_zone FROM regions WHERE name = 'Birmingham' AND state = 'Alabama' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "America/Chicago"
+      ]
+    ],
+    "seconds": 1.03,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "America/Chicago"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q06",
+    "difficulty": "easy",
+    "split": "dev",
+    "question": "Which sales channels do we sell through?",
+    "final_sql": "SELECT DISTINCT Channel FROM sales_order LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 3,
+    "first_rows": [
+      [
+        "Wholesale"
+      ],
+      [
+        "Distributor"
+      ],
+      [
+        "Export"
+      ]
+    ],
+    "seconds": 0.89,
+    "gold_row_count": 3,
+    "gold_first_rows": [
+      [
+        "Wholesale"
+      ],
+      [
+        "Distributor"
+      ],
+      [
+        "Export"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q07",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "Which products had a 2017 budget of more than 5 million?",
+    "final_sql": "SELECT `Product Name` FROM `2017_budgets` WHERE `2017 Budgets` > 5000000 LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 2,
+    "first_rows": [
+      [
+        "Product 25"
+      ],
+      [
+        "Product 26"
+      ]
+    ],
+    "seconds": 0.99,
+    "gold_row_count": 2,
+    "gold_first_rows": [
+      [
+        "Product 25"
+      ],
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q08",
+    "difficulty": "easy",
+    "split": "test",
+    "question": "What is the two-letter code for the state of Texas?",
+    "final_sql": "SELECT `State Code` FROM state_regions WHERE State = 'Texas' LIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "TX"
+      ]
+    ],
+    "seconds": 0.94,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "TX"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q09",
+    "difficulty": "medium",
+    "split": "dev",
+    "question": "How many customers do we have?",
+    "final_sql": "SELECT COUNT(*) FROM customers LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        175.0
+      ]
+    ],
+    "seconds": 0.89,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        175.0
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q10",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "What was the total 2017 budget for all products together?",
+    "final_sql": "SELECT SUM(`2017 Budgets`) AS total_2017_budget FROM `2017_budgets` LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        62700262.34
+      ]
+    ],
+    "seconds": 0.8,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        62700262.34
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q11",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "How many order lines were sold through the Export channel?",
+    "final_sql": "SELECT COUNT(*) FROM sales_order WHERE Channel = 'Export' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        9540.0
+      ]
+    ],
+    "seconds": 1.0,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        9540.0
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q12",
+    "difficulty": "medium",
+    "split": "dev",
+    "question": "What were our total sales in 2023?",
+    "final_sql": "SELECT SUM(`Line Total`) AS total_sales_2023 FROM sales_order WHERE OrderDate LIKE '2023%' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        298083670.0
+      ]
+    ],
+    "seconds": 1.26,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        298083670.0
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q13",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "Which warehouse handled the most order lines?",
+    "final_sql": "SELECT `Warehouse Code`, COUNT(*) AS order_lines_count FROM sales_order GROUP BY `Warehouse Code` ORDER BY order_lines_count DESC LIMIT 1",
+    "label": "correct_extra_columns",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "AXW291",
+        30204.0
+      ]
+    ],
+    "seconds": 1.12,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "AXW291"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q14",
+    "difficulty": "medium",
+    "split": "dev",
+    "question": "How many states, including Washington DC, are listed in each part of the country?",
+    "final_sql": "SELECT Region, COUNT(DISTINCT `State Code`) AS NumberOfStates FROM state_regions GROUP BY Region ORDER BY Region LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 4,
+    "first_rows": [
+      [
+        "Midwest",
+        12.0
+      ],
+      [
+        "Northeast",
+        8.0
+      ],
+      [
+        "South",
+        16.0
+      ]
+    ],
+    "seconds": 0.88,
+    "gold_row_count": 4,
+    "gold_first_rows": [
+      [
+        "South",
+        16.0
+      ],
+      [
+        "West",
+        12.0
+      ],
+      [
+        "Northeast",
+        8.0
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q15",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "What is the average median income of the places we have in California?",
+    "final_sql": "SELECT AVG(median_income) AS average_median_income FROM regions WHERE state = 'California' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        67015.81
+      ]
+    ],
+    "seconds": 0.88,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        67015.81
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q16",
+    "difficulty": "medium",
+    "split": "test",
+    "question": "How many order lines did we have in January 2024?",
+    "final_sql": "SELECT COUNT(*) FROM sales_order WHERE OrderDate LIKE '2024-01%' LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        1234.0
+      ]
+    ],
+    "seconds": 0.89,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        1234.0
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q17",
+    "difficulty": "join",
+    "split": "dev",
+    "question": "What were our total sales to Geiss Company?",
+    "final_sql": "SELECT SUM(`Line Total`) AS `total_sales` FROM `sales_order` so JOIN `customers` c ON so.`Customer Name Index` = c.`Customer Index` WHERE c.`Customer Names` = 'Geiss Company' LIMIT 100",
+    "label": "correct",
+    "attempts": 2,
+    "error_history": [
+      {
+        "sql": "SELECT SUM(Line Total) AS total_sales FROM sales_order so JOIN customers c ON so.`Customer Name Index` = c.`Customer Index` WHERE c.`Customer Names` = 'Geiss Company'",
+        "code": 1064,
+        "message": "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Total) AS total_sales FROM sales_order so JOIN customers c ON so.`Customer Name ' at line 1"
+      }
+    ],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        5516847.0
+      ]
+    ],
+    "seconds": 2.12,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        5516847.0
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q18",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which product has sold the most units overall?",
+    "final_sql": "SELECT p.`Product Name`\nFROM sales_order s\nJOIN products p ON s.`Product Description Index` = p.`Index`\nGROUP BY p.`Product Name`\nORDER BY SUM(s.`Order Quantity`) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Product 26"
+      ]
+    ],
+    "seconds": 1.34,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q19",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which part of the country (South, West, Northeast or Midwest) is Auburn, Alabama in?",
+    "final_sql": "SELECT Region FROM state_regions WHERE `State Code` = (SELECT state_code FROM regions WHERE name = 'Auburn' AND state = 'Alabama') LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "South"
+      ]
+    ],
+    "seconds": 1.02,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "South"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q20",
+    "difficulty": "join",
+    "split": "dev",
+    "question": "How many of the places we have are in the Midwest?",
+    "final_sql": "SELECT COUNT(*) FROM regions WHERE state_code IN (SELECT `State Code` FROM state_regions WHERE Region = 'Midwest') LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        258.0
+      ]
+    ],
+    "seconds": 0.91,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        258.0
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q21",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which customer had the most order lines in 2024?",
+    "final_sql": "SELECT c.`Customer Names`\nFROM sales_order s\nJOIN customers c ON s.`Customer Name Index` = c.`Customer Index`\nWHERE s.OrderDate LIKE '2024%'\nGROUP BY c.`Customer Names`\nORDER BY COUNT(*) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Aibox Company"
+      ]
+    ],
+    "seconds": 1.35,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Aibox Company"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q22",
+    "difficulty": "join",
+    "split": "test",
+    "question": "What were our total sales delivered to places in Texas?",
+    "final_sql": "SELECT SUM(s.`Line Total`) AS `total_sales` FROM `sales_order` s JOIN `regions` r ON s.`Delivery Region Index` = r.`id` WHERE r.`state_code` = 'TX' LIMIT 100",
+    "label": "correct",
+    "attempts": 2,
+    "error_history": [
+      {
+        "sql": "SELECT SUM(s.Line Total) AS total_sales\nFROM sales_order s\nJOIN regions r ON s.`Delivery Region Index` = r.id\nWHERE r.state_code = 'TX'",
+        "code": 1064,
+        "message": "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Total) AS total_sales\nFROM sales_order s\nJOIN regions r ON s.`Delivery Region In' at line 1"
+      }
+    ],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        84011903.0
+      ]
+    ],
+    "seconds": 2.18,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        84011903.0
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q23",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Which product had the highest sales in 2022?",
+    "final_sql": "SELECT p.`Product Name`\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nWHERE YEAR(STR_TO_DATE(so.OrderDate, '%Y-%m-%d')) = 2022\nGROUP BY p.`Product Name`\nORDER BY SUM(so.`Line Total`) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Product 26"
+      ]
+    ],
+    "seconds": 1.25,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q24",
+    "difficulty": "join",
+    "split": "test",
+    "question": "Who are our top 3 customers by total sales?",
+    "final_sql": "SELECT c.`Customer Names`, SUM(s.`Line Total`) AS total_sales\nFROM sales_order s\nJOIN customers c ON s.`Customer Name Index` = c.`Customer Index`\nGROUP BY c.`Customer Names`\nORDER BY total_sales DESC\nLIMIT 3",
+    "label": "correct_extra_columns",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 3,
+    "first_rows": [
+      [
+        "Aibox Company",
+        12641251.8
+      ],
+      [
+        "State Ltd",
+        12220639.2
+      ],
+      [
+        "Pixoboo Corp",
+        10986459.0
+      ]
+    ],
+    "seconds": 1.14,
+    "gold_row_count": 3,
+    "gold_first_rows": [
+      [
+        "Aibox Company"
+      ],
+      [
+        "State Ltd"
+      ],
+      [
+        "Pixoboo Corp"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q25",
+    "difficulty": "hard",
+    "split": "dev",
+    "question": "What were our total sales in each part of the country (South, West, Northeast, Midwest)?",
+    "final_sql": "SELECT `sr`.`Region`, SUM(`so`.`Line Total`) AS `Total_Sales`\nFROM `sales_order` `so`\nJOIN `regions` `r` ON `so`.`Delivery Region Index` = `r`.`id`\nJOIN `state_regions` `sr` ON `r`.`state_code` = `sr`.`State Code`\nGROUP BY `sr`.`Region` LIMIT 100",
+    "label": "correct",
+    "attempts": 2,
+    "error_history": [
+      {
+        "sql": "SELECT sr.Region, SUM(so.Line Total) AS Total_Sales\nFROM sales_order so\nJOIN regions r ON so.`Delivery Region Index` = r.id\nJOIN state_regions sr ON r.state_code = sr.`State Code`\nGROUP BY sr.Region",
+        "code": 1064,
+        "message": "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Total) AS Total_Sales\nFROM sales_order so\nJOIN regions r ON so.`Delivery Region ' at line 1"
+      }
+    ],
+    "error_code": null,
+    "error": null,
+    "row_count": 4,
+    "first_rows": [
+      [
+        "South",
+        335135011.7
+      ],
+      [
+        "Midwest",
+        320322363.6
+      ],
+      [
+        "West",
+        372142307.6
+      ]
+    ],
+    "seconds": 2.62,
+    "gold_row_count": 4,
+    "gold_first_rows": [
+      [
+        "South",
+        335135011.7
+      ],
+      [
+        "Midwest",
+        320322363.6
+      ],
+      [
+        "West",
+        372142307.6
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q26",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "Which customers have more than 500 order lines in total?",
+    "final_sql": "SELECT c.`Customer Names`\nFROM sales_order s\nJOIN customers c ON s.`Customer Name Index` = c.`Customer Index`\nGROUP BY c.`Customer Names`\nHAVING COUNT(*) > 500 LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 4,
+    "first_rows": [
+      [
+        "Kare Corp"
+      ],
+      [
+        "Talane Group"
+      ],
+      [
+        "Aibox Company"
+      ]
+    ],
+    "seconds": 1.43,
+    "gold_row_count": 4,
+    "gold_first_rows": [
+      [
+        "Kare Corp"
+      ],
+      [
+        "Talane Group"
+      ],
+      [
+        "Aibox Company"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q27",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "Which product sold the most units in the West?",
+    "final_sql": "SELECT p.`Product Name`, SUM(so.`Order Quantity`) AS total_units_sold\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nJOIN regions r ON so.`Delivery Region Index` = r.id\nJOIN state_regions sr ON r.state_code = sr.`State Code`\nWHERE sr.Region = 'West'\nGROUP BY p.`Product Name`\nORDER BY total_units_sold DESC\nLIMIT 1",
+    "label": "correct_extra_columns",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "Product 26",
+        15316.0
+      ]
+    ],
+    "seconds": 1.68,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q28",
+    "difficulty": "hard",
+    "split": "dev",
+    "question": "Who was our biggest customer by sales in the South in 2024?",
+    "final_sql": "SELECT c.`Customer Names`\nFROM sales_order so\nJOIN customers c ON so.`Customer Name Index` = c.`Customer Index`\nJOIN regions r ON so.`Delivery Region Index` = r.id\nJOIN state_regions sr ON r.state_code = sr.`State Code`\nWHERE sr.Region = 'South' AND so.OrderDate LIKE '2024%'\nGROUP BY c.`Customer Names`\nORDER BY SUM(so.`Line Total`) DESC\nLIMIT 1",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 1,
+    "first_rows": [
+      [
+        "WOCKHARDT Group"
+      ]
+    ],
+    "seconds": 1.5,
+    "gold_row_count": 1,
+    "gold_first_rows": [
+      [
+        "WOCKHARDT Group"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q29",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "Which products had a total sales amount above the average product's total sales amount?",
+    "final_sql": "SELECT p.`Product Name`\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nGROUP BY p.`Product Name`\nHAVING SUM(so.`Line Total`) > (\n    SELECT AVG(product_total)\n    FROM (\n        SELECT SUM(so2.`Line Total`) AS product_total\n        FROM sales_order so2\n        GROUP BY so2.`Product Description Index`\n    ) AS product_totals\n) LIMIT 100",
+    "label": "correct",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 11,
+    "first_rows": [
+      [
+        "Product 26"
+      ],
+      [
+        "Product 1"
+      ],
+      [
+        "Product 25"
+      ]
+    ],
+    "seconds": 2.03,
+    "gold_row_count": 11,
+    "gold_first_rows": [
+      [
+        "Product 26"
+      ],
+      [
+        "Product 1"
+      ],
+      [
+        "Product 25"
+      ]
+    ]
+  },
+  {
+    "run": 3,
+    "id": "q30",
+    "difficulty": "hard",
+    "split": "test",
+    "question": "For each sales channel, which product brought in the most sales?",
+    "final_sql": "SELECT so.Channel, p.`Product Name`, SUM(so.`Line Total`) AS total_sales\nFROM sales_order so\nJOIN products p ON so.`Product Description Index` = p.`Index`\nGROUP BY so.Channel, p.`Product Name`\nORDER BY so.Channel, total_sales DESC LIMIT 100",
+    "label": "wrong_result",
+    "attempts": 1,
+    "error_history": [],
+    "error_code": null,
+    "error": null,
+    "row_count": 90,
+    "first_rows": [
+      [
+        "Distributor",
+        "Product 25",
+        38915368.8
+      ],
+      [
+        "Distributor",
+        "Product 26",
+        31313146.8
+      ],
+      [
+        "Distributor",
+        "Product 14",
+        24129688.2
+      ]
+    ],
+    "seconds": 1.28,
+    "gold_row_count": 3,
+    "gold_first_rows": [
+      [
+        "Distributor",
+        "Product 25"
+      ],
+      [
+        "Export",
+        "Product 26"
+      ],
+      [
+        "Wholesale",
+        "Product 26"
+      ]
+    ]
+  }
+]
