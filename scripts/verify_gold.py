@@ -27,11 +27,9 @@ def load_questions():
 
 
 def run_gold_sql(sql):
-    """Run one gold query through the same safety guard the app uses.
-    Returns (the SQL that ran, list of rows)."""
-    safe_sql = querymind.check_sql_is_safe(sql)
-    # fetch="cursor" gives us real rows (a list of tuples) instead of one long string.
-    rows = querymind.get_db().run(safe_sql, fetch="cursor").fetchall()
+    """Run one gold query through querymind.run_query, the same function the app uses
+    (safety guard first). Returns (the SQL that ran, list of rows)."""
+    safe_sql, columns, rows = querymind.run_query(sql)
     return safe_sql, rows
 
 

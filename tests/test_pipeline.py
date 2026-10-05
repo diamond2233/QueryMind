@@ -7,6 +7,16 @@ from langchain_core.language_models.fake_chat_models import FakeListChatModel
 import querymind
 
 
+class FakeCursor:
+    """Pretends to be the cursor that db.run(sql, fetch="cursor") returns."""
+
+    def keys(self):
+        return ["Product Name"]
+
+    def fetchall(self):
+        return [("Product 1",), ("Product 2",)]
+
+
 class FakeDB:
     """Pretends to be the LangChain SQLDatabase and remembers which SQL was run."""
 
@@ -16,9 +26,9 @@ class FakeDB:
     def get_table_info(self):
         return "CREATE TABLE products (`Index` INTEGER, `Product Name` TEXT)"
 
-    def run(self, sql):
+    def run(self, sql, fetch="all"):
         self.executed.append(sql)
-        return "[('Product 1',), ('Product 2',)]"
+        return FakeCursor()
 
 
 def use_fakes(monkeypatch, llm_replies):
@@ -41,7 +51,7 @@ def test_answer_question_returns_sql_rows_and_answer(monkeypatch):
 
     assert result["question"] == "What are the product names?"
     assert result["sql"] == "SELECT `Product Name` FROM products LIMIT 100"
-    assert result["rows"] == "[('Product 1',), ('Product 2',)]"
+    assert result["rows"] == [("Product 1",), ("Product 2",)]
     assert result["answer"] == "The products are Product 1 and Product 2."
     # The SQL that ran is the checked one, with LIMIT 100 added.
     assert fake_db.executed == ["SELECT `Product Name` FROM products LIMIT 100"]

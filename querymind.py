@@ -20,6 +20,7 @@ from langchain_community.utilities import SQLDatabase
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
+from sqlalchemy.exc import DBAPIError
 
 
 SQL_GEN_TEMPLATE = """You are a MySQL expert. Given an input question, write a syntactically \
@@ -168,23 +169,93 @@ def check_sql_is_safe(sql):
 
 
 def run_query(sql):
-    """Check the SQL with check_sql_is_safe, then run it on MySQL and return the
-    result rows (as a string). Unsafe SQL raises UnsafeSQLError and never runs."""
+    """Check the SQL with check_sql_is_safe, then run it on MySQL.
+    Returns (the SQL that ran, column names, rows). Rows are real Python rows (tuples),
+    not text, so the evaluation can compare them value by value.
+    Unsafe SQL raises UnsafeSQLError and never runs. MySQL errors are raised as-is."""
     safe_sql = check_sql_is_safe(sql)
-    return get_db().run(safe_sql)
+    # fetch="cursor" gives real rows instead of LangChain's text version of them.
+    cursor = get_db().run(safe_sql, fetch="cursor")
+    columns = list(cursor.keys())
+    rows = [tuple(row) for row in cursor.fetchall()]
+    return safe_sql, columns, rows
+
+
+def describe_sql_error(error):
+    """Return (MySQL error code, message). SQLAlchemy keeps the original MySQL error in
+    error.orig, whose args look like (1054, "Unknown column 'x' in 'field list'")."""
+    original = getattr(error, "orig", None)
+    if original is not None and len(original.args) >= 2:
+        return original.args[0], str(original.args[1])
+    return None, f"{type(error).__name__}: {error}"
+
+
+def answer_with_repair(question, max_repairs=2):
+    """Question -> SQL -> rows. This is the ONE execution path, used by both the app
+    (answer_question) and the evaluation (scripts/run_eval.py).
+
+    Returns a dict:
+      sql            the final SQL that ran (after the guard, so with LIMIT 100 if added)
+      columns        column names
+      rows           list of row tuples
+      attempts       how many times the LLM wrote SQL
+      error_history  one {"sql", "code", "message"} entry per attempt that MySQL rejected
+
+    If it fails, the error is raised, with .sql, .attempts and .error_history attached
+    to it so the caller can still see what happened.
+
+    (The repair loop that uses max_repairs is added in the next step.)
+    """
+    attempts = 0
+    error_history = []
+    sql = None
+    try:
+        attempts += 1
+        sql = generate_sql(question)
+        try:
+            safe_sql, columns, rows = run_query(sql)
+        except DBAPIError as error:  # an error from MySQL itself
+            code, message = describe_sql_error(error)
+            error_history.append({"sql": sql, "code": code, "message": message})
+            raise
+    except Exception as error:
+        error.sql = sql
+        error.attempts = attempts
+        error.error_history = error_history
+        raise
+
+    return {
+        "sql": safe_sql,
+        "columns": columns,
+        "rows": rows,
+        "attempts": attempts,
+        "error_history": error_history,
+    }
+
+
+def format_rows_for_prompt(rows):
+    """The same text LangChain's db.run() used to give the answer prompt, e.g.
+    "[('Product 26',)]", and '' when there are no rows."""
+    return str(rows) if rows else ""
 
 
 def answer_question(question):
     """Full pipeline: question -> SQL -> rows -> natural-language answer."""
-    # Check here too, so the SQL we return and explain is exactly the SQL that ran
-    # (with LIMIT 100 if it was added). run_query checks again, which is harmless.
-    sql = check_sql_is_safe(generate_sql(question))
-    rows = run_query(sql)
+    result = answer_with_repair(question)
 
     chain = ChatPromptTemplate.from_template(ANSWER_TEMPLATE) | get_llm() | StrOutputParser()
-    answer = chain.invoke({"question": question, "query": sql, "result": rows})
+    answer = chain.invoke({
+        "question": question,
+        "query": result["sql"],
+        "result": format_rows_for_prompt(result["rows"]),
+    })
 
-    return {"question": question, "sql": sql, "rows": rows, "answer": answer}
+    return {
+        "question": question,
+        "sql": result["sql"],
+        "rows": result["rows"],
+        "answer": answer,
+    }
 
 
 def main():

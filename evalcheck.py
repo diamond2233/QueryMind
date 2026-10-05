@@ -1,7 +1,7 @@
 """Helpers for evaluating QueryMind.
 
 - compare_results: compare the rows of a generated query with the gold rows
-- evaluate_question: generate SQL for one question, run it, and give it a label
+- evaluate_question: answer one question with querymind.answer_with_repair and label it
 - summarize: turn all the labels into the numbers for results/baseline.json
 """
 
@@ -10,6 +10,8 @@ import itertools
 import statistics
 import time
 from decimal import Decimal
+
+from sqlalchemy.exc import DBAPIError
 
 import querymind
 
@@ -88,33 +90,15 @@ def compare_results(gold_rows, generated_rows):
     return "different"
 
 
-def run_sql_rows(sql):
-    """Run SQL the same way querymind.run_query does (safety guard first, same database
-    connection), but return real rows (a list of tuples) instead of one long string.
-
-    We need this because querymind.run_query returns LangChain's text version of the
-    result, e.g. "[(Decimal('67015.8118'),)]", where long values are cut short and an
-    empty result is ''. That text is fine for the LLM but can't be compared reliably.
-    """
-    safe_sql = querymind.check_sql_is_safe(sql)
-    return querymind.get_db().run(safe_sql, fetch="cursor").fetchall()
-
-
-def describe_sql_error(error):
-    """Return (MySQL error code, message). SQLAlchemy keeps the original MySQL error in
-    error.orig, whose args look like (1054, "Unknown column 'x' in 'field list'")."""
-    original = getattr(error, "orig", None)
-    if original is not None and len(original.args) >= 2:
-        return original.args[0], str(original.args[1])
-    return None, f"{type(error).__name__}: {error}"
-
-
 def evaluate_question(question, gold_rows):
-    """Generate SQL for one question, run it, compare with the gold rows and label it.
+    """Answer one question with querymind.answer_with_repair (the same code path as the
+    app), compare the rows with the gold rows and label the result.
     Never raises: every problem becomes a label, so one failure can't stop the whole run."""
     result = {
-        "generated_sql": None,
+        "final_sql": None,
         "label": None,
+        "attempts": None,
+        "error_history": [],
         "error_code": None,
         "error": None,
         "row_count": None,
@@ -122,33 +106,35 @@ def evaluate_question(question, gold_rows):
         "seconds": None,
     }
 
-    # 1. Ask the LLM for SQL, and time only this step.
     start = time.perf_counter()
     try:
-        sql = querymind.generate_sql(question)
+        answer = querymind.answer_with_repair(question, max_repairs=0)
     except Exception as error:
         result["seconds"] = round(time.perf_counter() - start, 2)
-        result["label"] = "generation_error"
-        result["error"] = f"{type(error).__name__}: {error}"
+        # answer_with_repair attaches what happened to the error it raises.
+        result["final_sql"] = getattr(error, "sql", None)
+        result["attempts"] = getattr(error, "attempts", None)
+        result["error_history"] = getattr(error, "error_history", [])
+        if isinstance(error, querymind.UnsafeSQLError):
+            result["label"] = "unsafe_sql"
+            result["error"] = str(error)
+        elif isinstance(error, DBAPIError):
+            result["label"] = "sql_error"
+            result["error_code"], result["error"] = querymind.describe_sql_error(error)
+        else:
+            # Anything else comes from the LLM call (network, rate limit, ...).
+            result["label"] = "generation_error"
+            result["error"] = f"{type(error).__name__}: {error}"
         return result
     result["seconds"] = round(time.perf_counter() - start, 2)
-    result["generated_sql"] = sql
 
-    # 2. Run it, with the safety guard.
-    try:
-        rows = run_sql_rows(sql)
-    except querymind.UnsafeSQLError as error:
-        result["label"] = "unsafe_sql"
-        result["error"] = str(error)
-        return result
-    except Exception as error:
-        result["label"] = "sql_error"
-        result["error_code"], result["error"] = describe_sql_error(error)
-        return result
-
-    # 3. Compare with the gold rows.
+    rows = answer["rows"]
+    result["final_sql"] = answer["sql"]
+    result["attempts"] = answer["attempts"]
+    result["error_history"] = answer["error_history"]
     result["row_count"] = len(rows)
     result["first_rows"] = [[normalize_value(value) for value in row] for row in rows[:3]]
+
     comparison = compare_results(gold_rows, rows)
     if comparison == "exact":
         result["label"] = "correct"

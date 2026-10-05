@@ -10,8 +10,13 @@ import querymind
 
 
 class FakeCursor:
+    """Pretends to be the cursor that db.run(sql, fetch="cursor") returns."""
+
     def __init__(self, rows):
         self.rows = rows
+
+    def keys(self):
+        return [f"column{i}" for i in range(len(self.rows[0]))] if self.rows else []
 
     def fetchall(self):
         return self.rows
@@ -53,7 +58,9 @@ def test_correct(monkeypatch):
     result = evalcheck.evaluate_question("Best product?", GOLD)
     assert result["label"] == "correct"
     assert result["row_count"] == 1
-    assert result["generated_sql"] == "SELECT `Product Name` FROM products"
+    assert result["final_sql"] == "SELECT `Product Name` FROM products LIMIT 100"
+    assert result["attempts"] == 1
+    assert result["error_history"] == []
 
 
 def test_correct_extra_columns(monkeypatch):

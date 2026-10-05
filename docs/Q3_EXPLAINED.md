@@ -97,9 +97,12 @@ lucky or unlucky. So we run every question 3 times and report:
 `"[(Decimal('67015.8118'),)]"`. Long values are cut short, and an empty result is just `''`.
 That's fine for the LLM to read, but we can't reliably compare it value by value.
 
-So `evalcheck.run_sql_rows` does exactly what `run_query` does (the same `check_sql_is_safe`
-guard first, then the same database connection) but asks for real rows. Every generated
-query still goes through the safety guard, and it still runs as the read-only user.
+So in Q3, `evalcheck.run_sql_rows` did exactly what `run_query` does (the same
+`check_sql_is_safe` guard first, then the same database connection) but asked for real rows.
+
+**Update in Q4:** this is no longer needed. `run_query` itself now returns real rows, and
+both the app and the evaluation go through the same function,
+`querymind.answer_with_repair`. See `docs/Q4_EXPLAINED.md`.
 
 ## How to run the evaluation yourself
 

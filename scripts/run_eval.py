@@ -57,7 +57,8 @@ def main():
     # Run every gold query once. If one fails, stop: fix it with scripts/verify_gold.py first.
     gold_rows = {}
     for q in questions:
-        gold_rows[q["id"]] = evalcheck.run_sql_rows(q["gold_sql"])
+        sql, columns, rows = querymind.run_query(q["gold_sql"])
+        gold_rows[q["id"]] = rows
 
     details = []
     for run in range(1, args.runs + 1):
