@@ -2,6 +2,7 @@
 langchain==1.2.15
 langchain-openai==1.1.12
 langchain-community==0.3.31
+langchain-core==1.6.2
 openai==2.30.0
 pymysql==1.2.0
 sqlalchemy==2.0.52
