@@ -1,4 +1,4 @@
-# Q1 explained: querymind.py and the SQL safety guard
+# How the safety guard works
 
 ## The big picture
 

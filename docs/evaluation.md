@@ -1,4 +1,4 @@
-# Q3 explained: measuring the current system
+# How the evaluation works
 
 The goal of Q3 is to **measure**, not to improve. Nothing in `querymind.py` changed: same
 prompts, same model, same temperature. We only added a way to grade it.

@@ -1,4 +1,4 @@
-# Q4 explained: the repair loop
+# How the repair loop works
 
 ## The problem we saw in the baseline
 

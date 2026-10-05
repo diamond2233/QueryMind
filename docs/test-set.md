@@ -1,4 +1,4 @@
-# Q2 explained: the gold test set
+# How the test set was built
 
 ## What's new
 

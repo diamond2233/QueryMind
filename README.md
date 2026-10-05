@@ -6,6 +6,8 @@ runs it against a MySQL database, and turns the result back into a plain-languag
 It comes with a small benchmark that measures how often the generated SQL returns the right
 rows.
 
+Built with Python, the OpenAI API (gpt-4.1-mini), LangChain, MySQL (SQLAlchemy + PyMySQL) and pytest.
+
 ## Features
 
 * Natural language question &rarr; SQL query generation (`gpt-4.1-mini`, temperature 0)
