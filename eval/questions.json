@@ -93,7 +93,7 @@
   {
     "id": "q14",
     "difficulty": "medium",
-    "question": "How many states are there in each region?",
+    "question": "How many states, including Washington DC, are listed in each part of the country?",
     "gold_sql": "SELECT `Region`, COUNT(*) FROM state_regions GROUP BY `Region`",
     "split": "dev"
   },
