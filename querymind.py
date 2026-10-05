@@ -43,6 +43,34 @@ SQL Result: {result}
 
 Answer:"""
 
+# Used only when MySQL rejected the first SQL (see answer_with_repair).
+REPAIR_TEMPLATE = """You are a MySQL expert. The SQL query below was written to answer the question, but MySQL returned an error. Fix the query.
+Only use the tables and columns shown in the schema. Wrap every table name and every column name in backticks. Return ONLY the corrected SQL query — no explanation, no Markdown code fences, no trailing semicolon.
+
+Schema:
+{schema}
+
+Question: {question}
+Failed SQL: {failed_sql}
+MySQL error: {error_message}
+Corrected SQL Query:"""
+
+# MySQL error codes that mean "the SQL itself is wrong", so asking the model to fix it
+# makes sense. Other errors (lost connection, access denied, ...) are not repaired.
+REPAIRABLE_ERROR_CODES = {
+    1064,  # syntax error
+    1054,  # unknown column
+    1146,  # table doesn't exist
+    1052,  # column name is ambiguous (exists in two joined tables)
+    1066,  # table/alias used twice
+    1055,  # column not in GROUP BY
+    1111,  # invalid use of a group function like SUM in WHERE
+    1140,  # mix of GROUP columns without GROUP BY
+    1248,  # derived table (subquery) needs an alias
+    1305,  # function does not exist
+    1582,  # wrong number of arguments to a function
+}
+
 # Created once on first use, then reused (so we don't reconnect for every question).
 _db = None
 _llm = None
@@ -112,6 +140,18 @@ def generate_sql(question):
     schema = get_db().get_table_info()
     chain = ChatPromptTemplate.from_template(SQL_GEN_TEMPLATE) | get_llm() | StrOutputParser()
     text = chain.invoke({"schema": schema, "question": question})
+    return clean_sql(text)
+
+
+def repair_sql(question, schema, failed_sql, error_message):
+    """Ask the LLM to fix SQL that MySQL rejected, giving it the exact MySQL error."""
+    chain = ChatPromptTemplate.from_template(REPAIR_TEMPLATE) | get_llm() | StrOutputParser()
+    text = chain.invoke({
+        "schema": schema,
+        "question": question,
+        "failed_sql": failed_sql,
+        "error_message": error_message,
+    })
     return clean_sql(text)
 
 
@@ -201,10 +241,18 @@ def answer_with_repair(question, max_repairs=2):
       attempts       how many times the LLM wrote SQL
       error_history  one {"sql", "code", "message"} entry per attempt that MySQL rejected
 
-    If it fails, the error is raised, with .sql, .attempts and .error_history attached
-    to it so the caller can still see what happened.
+    The repair loop: if MySQL rejects the SQL with an error that means "this SQL is
+    wrong" (REPAIRABLE_ERROR_CODES), we send the exact error back to the model with
+    repair_sql and try again, at most max_repairs times. With max_repairs=0 nothing is
+    ever repaired, which is how the app behaved before.
 
-    (The repair loop that uses max_repairs is added in the next step.)
+    Never repaired:
+      - UnsafeSQLError: the guard said no; we never ask the model to "get around" it
+      - errors from the OpenAI call
+      - SQL that runs fine but gives the wrong answer (we can't know it's wrong)
+
+    If it fails, the last error is raised, with .sql, .attempts and .error_history
+    attached to it so the caller can still see what happened.
     """
     attempts = 0
     error_history = []
@@ -212,12 +260,19 @@ def answer_with_repair(question, max_repairs=2):
     try:
         attempts += 1
         sql = generate_sql(question)
-        try:
-            safe_sql, columns, rows = run_query(sql)
-        except DBAPIError as error:  # an error from MySQL itself
-            code, message = describe_sql_error(error)
-            error_history.append({"sql": sql, "code": code, "message": message})
-            raise
+        while True:
+            try:
+                safe_sql, columns, rows = run_query(sql)
+                break  # it ran, we're done
+            except DBAPIError as error:  # an error from MySQL itself
+                code, message = describe_sql_error(error)
+                error_history.append({"sql": sql, "code": code, "message": message})
+                repairs_done = attempts - 1
+                if code not in REPAIRABLE_ERROR_CODES or repairs_done >= max_repairs:
+                    raise
+                attempts += 1
+                schema = get_db().get_table_info()
+                sql = repair_sql(question, schema, sql, f"{code}: {message}")
     except Exception as error:
         error.sql = sql
         error.attempts = attempts
