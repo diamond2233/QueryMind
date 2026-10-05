@@ -14,7 +14,10 @@ and turns the result back into a plain-language answer.
 
 ## Project Structure
 
-* `querymind_openai.ipynb` – The project: SQL generation, execution, answer generation, and RAGAS evaluation, in one notebook
+* `querymind.py` – The project logic as plain functions (`load_config`, `get_db`, `generate_sql`, `run_query`, `answer_question`) plus a command-line entry
+* `querymind_openai.ipynb` – Short demo notebook that imports `querymind.py`, plus the RAGAS evaluation
+* `requirements.txt` – Python dependencies
+* `.env.example` – Template for your settings (copy to `.env`, which is gitignored)
 * `Data_CSV/` – Source CSV files loaded into the MySQL `text_to_sql` database (budgets, customers, products, regions, sales orders, state/region mapping)
 
 ## Tech Stack
@@ -47,23 +50,27 @@ and turns the result back into a plain-language answer.
 2. Install dependencies:
 
    ```bash
-   pip install langchain langchain-openai "langchain-community==0.3.31" openai pymysql sqlalchemy "ragas==0.3.9" ipykernel
+   pip install -r requirements.txt
    ```
 
 3. Have a MySQL server running locally with a `text_to_sql` database (see `Data_CSV/` for the source data).
 
-4. Set your OpenAI API key as an environment variable (or let the notebook prompt for it via `getpass`):
+4. Copy `.env.example` to `.env` and fill in your OpenAI key and MySQL settings
+   (`OPENAI_API_KEY`, `OPENAI_MODEL`, `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`).
+   Real environment variables work too.
+
+5. Ask a question from the command line:
 
    ```bash
-   export OPENAI_API_KEY="sk-..."
+   python querymind.py "What was the 2017 budget for Product 12?"
    ```
 
-5. Open and run `querymind_openai.ipynb` top to bottom in Jupyter or VS Code.
+   Or open `querymind_openai.ipynb` for the demo and the RAGAS evaluation.
 
 ## Note
 
-Keep API keys and database credentials out of version control — the notebook reads them from
-environment variables or an interactive `getpass` prompt, never hardcoded.
+Keep API keys and database credentials out of version control — `querymind.py` reads them from
+environment variables or a `.env` file (which is gitignored), never hardcoded.
 
 ## License
 

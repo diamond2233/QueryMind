@@ -1,0 +1,10 @@
+# Same packages and pins as the README install line, plus python-dotenv for .env files.
+langchain
+langchain-openai
+langchain-community==0.3.31
+openai
+pymysql
+sqlalchemy
+ragas==0.3.9
+ipykernel
+python-dotenv
