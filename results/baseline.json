@@ -1,0 +1,111 @@
+{
+  "model": "gpt-4.1-mini",
+  "date": "2026-10-05T17:11:43",
+  "split": "all",
+  "runs": 3,
+  "number_of_questions": 30,
+  "correct_per_run": [
+    "26 of 30",
+    "26 of 30",
+    "26 of 30"
+  ],
+  "median_correct": "26 of 30",
+  "exact_per_run": [
+    23,
+    23,
+    23
+  ],
+  "extra_columns_per_run": [
+    3,
+    3,
+    3
+  ],
+  "by_difficulty": {
+    "easy": {
+      "correct_per_run": [
+        "8 of 8",
+        "8 of 8",
+        "8 of 8"
+      ],
+      "median_correct": "8 of 8"
+    },
+    "medium": {
+      "correct_per_run": [
+        "8 of 8",
+        "8 of 8",
+        "8 of 8"
+      ],
+      "median_correct": "8 of 8"
+    },
+    "join": {
+      "correct_per_run": [
+        "6 of 8",
+        "6 of 8",
+        "6 of 8"
+      ],
+      "median_correct": "6 of 8"
+    },
+    "hard": {
+      "correct_per_run": [
+        "4 of 6",
+        "4 of 6",
+        "4 of 6"
+      ],
+      "median_correct": "4 of 6"
+    }
+  },
+  "by_split": {
+    "dev": {
+      "correct_per_run": [
+        "8 of 10",
+        "8 of 10",
+        "8 of 10"
+      ],
+      "median_correct": "8 of 10"
+    },
+    "test": {
+      "correct_per_run": [
+        "18 of 20",
+        "18 of 20",
+        "18 of 20"
+      ],
+      "median_correct": "18 of 20"
+    }
+  },
+  "label_counts": {
+    "correct": 69,
+    "correct_extra_columns": 9,
+    "wrong_result": 3,
+    "sql_error": 9,
+    "unsafe_sql": 0,
+    "generation_error": 0
+  },
+  "label_counts_per_run": [
+    {
+      "correct": 23,
+      "correct_extra_columns": 3,
+      "wrong_result": 1,
+      "sql_error": 3,
+      "unsafe_sql": 0,
+      "generation_error": 0
+    },
+    {
+      "correct": 23,
+      "correct_extra_columns": 3,
+      "wrong_result": 1,
+      "sql_error": 3,
+      "unsafe_sql": 0,
+      "generation_error": 0
+    },
+    {
+      "correct": 23,
+      "correct_extra_columns": 3,
+      "wrong_result": 1,
+      "sql_error": 3,
+      "unsafe_sql": 0,
+      "generation_error": 0
+    }
+  ],
+  "average_seconds_per_question": 1.09,
+  "changed_between_runs": []
+}
