@@ -1,11 +1,28 @@
-"""Helpers for evaluating QueryMind: compare the rows of a generated query with the gold rows.
+"""Helpers for evaluating QueryMind.
 
-No OpenAI and no database needed for anything in this file.
+- compare_results: compare the rows of a generated query with the gold rows
+- evaluate_question: generate SQL for one question, run it, and give it a label
+- summarize: turn all the labels into the numbers for results/baseline.json
 """
 
 import datetime
 import itertools
+import statistics
+import time
 from decimal import Decimal
+
+import querymind
+
+# All possible labels, in the order we report them.
+LABELS = [
+    "correct",                # same rows as gold
+    "correct_extra_columns",  # gold rows, plus some extra columns
+    "wrong_result",           # the query ran but gave different rows
+    "sql_error",              # MySQL refused or failed to run the query
+    "unsafe_sql",             # our safety guard rejected the query
+    "generation_error",       # the OpenAI call failed
+]
+CORRECT_LABELS = ["correct", "correct_extra_columns"]
 
 
 def normalize_value(value):
@@ -69,3 +86,142 @@ def compare_results(gold_rows, generated_rows):
                 return "extra_columns"
 
     return "different"
+
+
+def run_sql_rows(sql):
+    """Run SQL the same way querymind.run_query does (safety guard first, same database
+    connection), but return real rows (a list of tuples) instead of one long string.
+
+    We need this because querymind.run_query returns LangChain's text version of the
+    result, e.g. "[(Decimal('67015.8118'),)]", where long values are cut short and an
+    empty result is ''. That text is fine for the LLM but can't be compared reliably.
+    """
+    safe_sql = querymind.check_sql_is_safe(sql)
+    return querymind.get_db().run(safe_sql, fetch="cursor").fetchall()
+
+
+def describe_sql_error(error):
+    """Return (MySQL error code, message). SQLAlchemy keeps the original MySQL error in
+    error.orig, whose args look like (1054, "Unknown column 'x' in 'field list'")."""
+    original = getattr(error, "orig", None)
+    if original is not None and len(original.args) >= 2:
+        return original.args[0], str(original.args[1])
+    return None, f"{type(error).__name__}: {error}"
+
+
+def evaluate_question(question, gold_rows):
+    """Generate SQL for one question, run it, compare with the gold rows and label it.
+    Never raises: every problem becomes a label, so one failure can't stop the whole run."""
+    result = {
+        "generated_sql": None,
+        "label": None,
+        "error_code": None,
+        "error": None,
+        "row_count": None,
+        "first_rows": None,
+        "seconds": None,
+    }
+
+    # 1. Ask the LLM for SQL, and time only this step.
+    start = time.perf_counter()
+    try:
+        sql = querymind.generate_sql(question)
+    except Exception as error:
+        result["seconds"] = round(time.perf_counter() - start, 2)
+        result["label"] = "generation_error"
+        result["error"] = f"{type(error).__name__}: {error}"
+        return result
+    result["seconds"] = round(time.perf_counter() - start, 2)
+    result["generated_sql"] = sql
+
+    # 2. Run it, with the safety guard.
+    try:
+        rows = run_sql_rows(sql)
+    except querymind.UnsafeSQLError as error:
+        result["label"] = "unsafe_sql"
+        result["error"] = str(error)
+        return result
+    except Exception as error:
+        result["label"] = "sql_error"
+        result["error_code"], result["error"] = describe_sql_error(error)
+        return result
+
+    # 3. Compare with the gold rows.
+    result["row_count"] = len(rows)
+    result["first_rows"] = [[normalize_value(value) for value in row] for row in rows[:3]]
+    comparison = compare_results(gold_rows, rows)
+    if comparison == "exact":
+        result["label"] = "correct"
+    elif comparison == "extra_columns":
+        result["label"] = "correct_extra_columns"
+    else:
+        result["label"] = "wrong_result"
+    return result
+
+
+def x_of_n(x, n):
+    """Format like "21 of 30". A median of an even number of runs can be 20.5."""
+    if isinstance(x, float) and x.is_integer():
+        x = int(x)
+    return f"{x} of {n}"
+
+
+def count_label(records, labels):
+    return sum(1 for record in records if record["label"] in labels)
+
+
+def breakdown(details, field, run_numbers):
+    """Correct answers per run, grouped by a field such as "difficulty" or "split"."""
+    groups = {}
+    for record in details:
+        groups.setdefault(record[field], []).append(record)
+
+    result = {}
+    for group, records in groups.items():
+        per_run = [count_label([r for r in records if r["run"] == run], CORRECT_LABELS)
+                   for run in run_numbers]
+        size = len([r for r in records if r["run"] == run_numbers[0]])
+        result[group] = {
+            "correct_per_run": [x_of_n(count, size) for count in per_run],
+            "median_correct": x_of_n(statistics.median(per_run), size),
+        }
+    return result
+
+
+def summarize(details, model, split, runs):
+    """Build the summary for results/baseline.json from the per-question details.
+    Each detail record needs at least: id, difficulty, split, run, label, seconds."""
+    run_numbers = list(range(1, runs + 1))
+    by_run = {run: [r for r in details if r["run"] == run] for run in run_numbers}
+    number_of_questions = len(by_run[1])
+
+    correct_per_run = [count_label(by_run[run], CORRECT_LABELS) for run in run_numbers]
+
+    # Questions that did not get the same label in every run.
+    labels_by_question = {}
+    for record in details:
+        labels_by_question.setdefault(record["id"], []).append(record["label"])
+    changed = [{"id": question_id, "labels": labels}
+               for question_id, labels in labels_by_question.items()
+               if len(set(labels)) > 1]
+
+    return {
+        "model": model,
+        "date": datetime.datetime.now().isoformat(timespec="seconds"),
+        "split": split,
+        "runs": runs,
+        "number_of_questions": number_of_questions,
+        "correct_per_run": [x_of_n(c, number_of_questions) for c in correct_per_run],
+        "median_correct": x_of_n(statistics.median(correct_per_run), number_of_questions),
+        "exact_per_run": [count_label(by_run[run], ["correct"]) for run in run_numbers],
+        "extra_columns_per_run": [count_label(by_run[run], ["correct_extra_columns"])
+                                  for run in run_numbers],
+        "by_difficulty": breakdown(details, "difficulty", run_numbers),
+        "by_split": breakdown(details, "split", run_numbers),
+        "label_counts": {label: count_label(details, [label]) for label in LABELS},
+        "label_counts_per_run": [{label: count_label(by_run[run], [label]) for label in LABELS}
+                                 for run in run_numbers],
+        "average_seconds_per_question": round(
+            statistics.mean(record["seconds"] for record in details), 2),
+        "changed_between_runs": changed,
+    }
