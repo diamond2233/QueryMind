@@ -1,6 +1,6 @@
 """QueryMind: ask a question in plain English, get SQL, run it on MySQL, get an answer.
 
-Same logic as querymind_openai.ipynb, written as plain functions.
+Written as plain functions.
 
 Usage:
     python querymind.py "What was the 2017 budget for Product 12?"

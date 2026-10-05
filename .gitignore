@@ -1,7 +1,8 @@
-.ipynb_checkpoints/
 __pycache__/
 *.pyc
 .DS_Store
 .env
 .pytest_cache/
 gemini.ipynb
+.venv/
+venv/

@@ -9,8 +9,8 @@ QueryMind does four things, in order:
 3. The query runs on the MySQL database.
 4. The model turns the result rows into a short English answer.
 
-Before Q1 this all lived in a notebook. Now it lives in `querymind.py` as plain functions,
-so it can be run from the command line, imported by the notebook, and tested.
+In Q1 this logic moved into `querymind.py` as plain functions, so it can be run from the
+command line, imported by other code, and tested.
 
 ## What each function does
 
@@ -20,7 +20,7 @@ so it can be run from the command line, imported by the notebook, and tested.
 | `get_db()` | Connects to MySQL the first time it is called and keeps the connection in `_db`, so later calls reuse it. |
 | `get_llm()` | Creates the OpenAI chat model (`gpt-4.1-mini` by default, temperature 0) the first time, then reuses it. |
 | `clean_sql(text)` | Cleans up the model's reply: removes ```` ```sql ```` fences and a trailing `;`. |
-| `generate_sql(question)` | Gives the model the database schema plus the question (same prompt as the notebook) and returns the SQL it writes. |
+| `generate_sql(question)` | Gives the model the database schema plus the question (the original prompt, unchanged) and returns the SQL it writes. |
 | `check_sql_is_safe(sql)` | The guard. Returns the SQL (adding `LIMIT 100` if needed) or raises `UnsafeSQLError`. |
 | `run_query(sql)` | Calls `check_sql_is_safe` first, then runs the SQL on MySQL and returns the rows. |
 | `answer_question(question)` | Runs the whole pipeline and returns a dict: `question`, `sql`, `rows`, `answer`. |
