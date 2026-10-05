@@ -129,10 +129,10 @@ def check_sql_is_safe(sql):
     there is no LIMIT) or raises UnsafeSQLError.
 
     This is a simple blocklist, not a SQL parser. The words are searched in the whole
-    text, so a blocked word inside a quoted string is also rejected, e.g.
-    WHERE name = 'Drop Shipping'. We accept that false positive: rejecting a safe
-    query is much better than running a dangerous one. The real protection is a
-    read-only MySQL user (see README).
+    text, so a blocked word (or comment marker) inside a quoted string is also
+    rejected, e.g. WHERE name = 'Drop Shipping' or 'Order #5'. We accept that false
+    positive: rejecting a safe query is much better than running a dangerous one.
+    The real protection is a read-only MySQL user (see README).
     """
     sql = sql.strip()
     # One trailing ';' is fine, remove it.
@@ -143,8 +143,10 @@ def check_sql_is_safe(sql):
         raise UnsafeSQLError("The SQL is empty.")
 
     # Comments can hide things from a human reading the query, so reject them.
-    if "--" in sql or "/*" in sql:
-        raise UnsafeSQLError("SQL comments (-- or /*) are not allowed.")
+    # '#' is MySQL's third comment style; it would also comment out the LIMIT we add.
+    # False positive: a string like 'Order #5' is rejected too, which we accept.
+    if "--" in sql or "/*" in sql or "#" in sql:
+        raise UnsafeSQLError("SQL comments (--, /* or #) are not allowed.")
 
     # Any ';' left means more than one statement, e.g. "SELECT 1; DROP TABLE x".
     if ";" in sql:

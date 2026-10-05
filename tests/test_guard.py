@@ -36,6 +36,7 @@ UNSAFE_CASES = [
     "REPLACE INTO products VALUES (1, 'x')",
     "SELECT * FROM products -- WHERE 1",
     "SELECT * FROM products /* hidden */",
+    "SELECT * FROM t # x",
     "WITH t AS (SELECT 1) DELETE FROM products",
     "SHOW TABLES",
     "",
@@ -65,3 +66,16 @@ def test_known_false_positive_blocked_word_in_string():
     # query is rejected because the text 'Drop Shipping' contains the word DROP.
     with pytest.raises(UnsafeSQLError):
         check_sql_is_safe("SELECT * FROM orders WHERE channel = 'Drop Shipping'")
+
+
+def test_hash_comment_cannot_switch_off_the_limit():
+    # Without the '#' rule this became "SELECT * FROM t # x LIMIT 100",
+    # and MySQL would treat "LIMIT 100" as part of the comment.
+    with pytest.raises(UnsafeSQLError, match="comments"):
+        check_sql_is_safe("SELECT * FROM t # x")
+
+
+def test_known_false_positive_hash_in_string():
+    # Documented limitation: '#' inside a string is also treated as a comment.
+    with pytest.raises(UnsafeSQLError):
+        check_sql_is_safe("SELECT * FROM orders WHERE note = 'Order #5'")

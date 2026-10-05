@@ -51,7 +51,7 @@ before running it, the same way you would never run user input as SQL unchecked.
 
 1. Remove one `;` at the very end (that's allowed).
 2. Reject empty SQL.
-3. Reject comments: `--` and `/*`.
+3. Reject comments: `--`, `/*` and `#` (all three comment styles MySQL has).
 4. Reject any other `;`, which means more than one statement (`SELECT 1; DROP TABLE x`).
 5. The query must start with `SELECT` or `WITH`.
 6. Reject the whole words `INSERT`, `UPDATE`, `DELETE`, `DROP`, `ALTER`, `TRUNCATE`, `CREATE`,
@@ -69,7 +69,8 @@ and does not really understand SQL. That makes it simple, but also limited.
 - obvious writes and schema changes (`DROP TABLE x`, `DELETE FROM ...`, `UPDATE ...`);
 - a second statement hidden after a `;`;
 - anything that doesn't start with `SELECT`/`WITH` (e.g. `SHOW`, `CALL`, `SET`);
-- comment tricks with `--` or `/* */`;
+- comment tricks with `--`, `/* */` or `#` (a `#` comment could otherwise switch off the
+  `LIMIT 100` we add: `SELECT * FROM t # x LIMIT 100` would ignore the `LIMIT`);
 - accidentally returning a huge result (a `LIMIT` is added).
 
 **It cannot stop (or gets wrong):**
@@ -77,14 +78,12 @@ and does not really understand SQL. That makes it simple, but also limited.
 - **False positives (safe query rejected).** A blocked word inside a quoted string or a
   backticked name is still found, e.g. `WHERE channel = 'Drop Shipping'` or a column
   `` `Update Date` ``. MySQL's harmless `REPLACE()` string function is also blocked. The same
-  goes for `--` inside a string. We accept this: refusing a safe query is far better than
-  running a dangerous one.
+  goes for comment markers inside a string: `WHERE note = 'Order #5'` is rejected because of
+  the `#`, and `'a--b'` because of the `--`. We accept this: refusing a safe query is far
+  better than running a dangerous one.
 - **Dangerous things that are not on the list.** For example `SELECT ... INTO OUTFILE`
   (writes a file on the server), `LOAD_FILE()` (reads a file), or a slow query like
   `SELECT SLEEP(1000)` or a giant join. None of these words are blocked.
-- **MySQL's `#` comment** is not checked. It can't sneak in a second statement (the `;` rule
-  still applies), but it can switch off the added limit: `SELECT * FROM t # x` becomes
-  `SELECT * FROM t # x LIMIT 100`, and MySQL treats `LIMIT 100` as part of the comment.
 - **`LIMIT` in the wrong place.** If the only `LIMIT` is inside a subquery, we don't add one
   to the outer query.
 - **Wrong answers.** The guard checks *safety*, not *correctness*. A safe query can still
