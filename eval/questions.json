@@ -198,7 +198,7 @@
   {
     "id": "q29",
     "difficulty": "hard",
-    "question": "Which products sold more in total than the average product?",
+    "question": "Which products had a total sales amount above the average product's total sales amount?",
     "gold_sql": "SELECT p.`Product Name` FROM sales_order s JOIN products p ON s.`Product Description Index` = p.`Index` GROUP BY p.`Product Name` HAVING SUM(s.`Line Total`) > (SELECT AVG(product_sales) FROM (SELECT SUM(`Line Total`) AS product_sales FROM sales_order GROUP BY `Product Description Index`) AS per_product)",
     "split": "test"
   },
