@@ -1,12 +1,13 @@
 """Measure QueryMind on the gold questions in eval/questions.json.
 
-For every question and every run: ask the LLM for SQL (querymind.generate_sql), run it
-through the safety guard on the real database, compare its rows with the gold rows, and
-label it. Writes a summary and a details file.
+For every question and every run: answer it with querymind.answer_with_repair (the same
+code the app uses: generate SQL, safety guard, run it, repair MySQL errors), compare its
+rows with the gold rows, and label it. Writes a summary and a details file.
 
 Usage (from the project folder):
-    python scripts/run_eval.py                       # all 30 questions, 3 runs
-    python scripts/run_eval.py --split dev --runs 1  # quick check on the dev set
+    python scripts/run_eval.py                        # 30 questions, 3 runs, up to 2 repairs
+    python scripts/run_eval.py --max-repairs 0        # no repairs: the baseline behaviour
+    python scripts/run_eval.py --split dev --runs 1   # quick check on the dev set
 """
 
 import argparse
@@ -28,8 +29,23 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Measure QueryMind on the gold questions.")
     parser.add_argument("--runs", type=int, default=3, help="how many times to ask each question")
     parser.add_argument("--split", choices=["all", "dev", "test"], default="all")
-    parser.add_argument("--output", default="results/baseline.json", help="summary file")
+    parser.add_argument("--max-repairs", type=int, default=2,
+                        help="how many times to ask the model to fix SQL that MySQL rejects "
+                             "(0 = no repairs, like the baseline)")
+    parser.add_argument("--output", default="results/latest.json",
+                        help="summary file; the details go next to it as *_details.json")
+    parser.add_argument("--baseline", default="results/baseline_details.json",
+                        help="details file of the baseline, to list questions that changed")
     return parser.parse_args()
+
+
+def load_baseline(path):
+    """Return the baseline details, or None if the file doesn't exist."""
+    if not os.path.exists(path):
+        print(f"No baseline file at {path}, so no comparison with the baseline.")
+        return None
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
 
 
 def load_questions(split):
@@ -52,7 +68,8 @@ def main():
     args = parse_args()
     questions = load_questions(args.split)
     model = querymind.load_config()["openai_model"]
-    print(f"Model {model}, {len(questions)} questions, {args.runs} runs")
+    print(f"Model {model}, {len(questions)} questions, {args.runs} runs, "
+          f"max {args.max_repairs} repairs")
 
     # Run every gold query once. If one fails, stop: fix it with scripts/verify_gold.py first.
     gold_rows = {}
@@ -63,7 +80,8 @@ def main():
     details = []
     for run in range(1, args.runs + 1):
         for q in questions:
-            result = evalcheck.evaluate_question(q["question"], gold_rows[q["id"]])
+            result = evalcheck.evaluate_question(q["question"], gold_rows[q["id"]],
+                                                 max_repairs=args.max_repairs)
             record = {
                 "run": run,
                 "id": q["id"],
@@ -76,9 +94,13 @@ def main():
                                     for row in gold_rows[q["id"]][:3]],
             }
             details.append(record)
-            print(f"run {run}  {q['id']}  {record['label']:<22} {record['seconds']}s")
+            print(f"run {run}  {q['id']}  {record['label']:<22} "
+                  f"attempts={record['attempts']}  {record['seconds']}s")
 
-    summary = evalcheck.summarize(details, model, args.split, args.runs)
+    baseline_details = load_baseline(args.baseline)
+    summary = evalcheck.summarize(details, model, args.split, args.runs,
+                                  max_repairs=args.max_repairs,
+                                  baseline_details=baseline_details)
 
     details_path = os.path.splitext(args.output)[0] + "_details.json"
     save_json(args.output, summary)
@@ -88,6 +110,14 @@ def main():
     print("Correct per run:", ", ".join(summary["correct_per_run"]))
     print("Median correct: ", summary["median_correct"])
     print("Label counts:   ", summary["label_counts"])
+    print("Needed repair:  ", summary["needed_repair_per_run"],
+          " fixed by repair:", summary["fixed_by_repair_per_run"])
+    if baseline_details is not None:
+        changes = summary["changed_vs_baseline"]
+        print("Changed vs baseline:", changes if changes else "none")
+        for change in changes:
+            if change["direction"] == "WORSE":
+                print(f"WARNING: {change['id']} was better at baseline: {change}")
     print(f"Saved {args.output} and {details_path}")
 
 

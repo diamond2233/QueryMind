@@ -2,7 +2,7 @@
 
 - compare_results: compare the rows of a generated query with the gold rows
 - evaluate_question: answer one question with querymind.answer_with_repair and label it
-- summarize: turn all the labels into the numbers for results/baseline.json
+- summarize: turn all the labels into the numbers for the results/*.json summary
 """
 
 import datetime
@@ -90,9 +90,10 @@ def compare_results(gold_rows, generated_rows):
     return "different"
 
 
-def evaluate_question(question, gold_rows):
+def evaluate_question(question, gold_rows, max_repairs=2):
     """Answer one question with querymind.answer_with_repair (the same code path as the
     app), compare the rows with the gold rows and label the result.
+    max_repairs=0 means no repairs, exactly like the baseline.
     Never raises: every problem becomes a label, so one failure can't stop the whole run."""
     result = {
         "final_sql": None,
@@ -108,7 +109,7 @@ def evaluate_question(question, gold_rows):
 
     start = time.perf_counter()
     try:
-        answer = querymind.answer_with_repair(question, max_repairs=0)
+        answer = querymind.answer_with_repair(question, max_repairs=max_repairs)
     except Exception as error:
         result["seconds"] = round(time.perf_counter() - start, 2)
         # answer_with_repair attaches what happened to the error it raises.
@@ -174,9 +175,45 @@ def breakdown(details, field, run_numbers):
     return result
 
 
-def summarize(details, model, split, runs):
-    """Build the summary for results/baseline.json from the per-question details.
-    Each detail record needs at least: id, difficulty, split, run, label, seconds."""
+def compare_with_baseline(details, baseline_details):
+    """List the questions whose labels differ from the baseline run, in either direction.
+    Labels are compared run by run (run 1 with run 1, and so on)."""
+    def labels_by_question(records):
+        labels = {}
+        for record in sorted(records, key=lambda r: r["run"]):
+            labels.setdefault(record["id"], []).append(record["label"])
+        return labels
+
+    before = labels_by_question(baseline_details)
+    after = labels_by_question(details)
+
+    changes = []
+    for question_id, new_labels in after.items():
+        old_labels = before.get(question_id)
+        if old_labels is None or old_labels == new_labels:
+            continue
+        old_correct = sum(1 for label in old_labels if label in CORRECT_LABELS)
+        new_correct = sum(1 for label in new_labels if label in CORRECT_LABELS)
+        if new_correct > old_correct:
+            direction = "better"
+        elif new_correct < old_correct:
+            direction = "WORSE"
+        else:
+            direction = "label changed, same correctness"
+        changes.append({
+            "id": question_id,
+            "direction": direction,
+            "baseline_labels": old_labels,
+            "new_labels": new_labels,
+        })
+    return changes
+
+
+def summarize(details, model, split, runs, max_repairs=0, baseline_details=None):
+    """Build the summary (e.g. results/repair_loop.json) from the per-question details.
+    Each detail record needs at least: id, difficulty, split, run, label, seconds,
+    attempts and error_history. If baseline_details is given, the questions whose
+    label changed compared with the baseline are listed too."""
     run_numbers = list(range(1, runs + 1))
     by_run = {run: [r for r in details if r["run"] == run] for run in run_numbers}
     number_of_questions = len(by_run[1])
@@ -191,11 +228,16 @@ def summarize(details, model, split, runs):
                for question_id, labels in labels_by_question.items()
                if len(set(labels)) > 1]
 
-    return {
+    # A question "needed a repair" if MySQL rejected its first SQL.
+    # It was "fixed by repair" if it still ended up correct.
+    needed_repair = [[r for r in by_run[run] if r["error_history"]] for run in run_numbers]
+
+    summary = {
         "model": model,
         "date": datetime.datetime.now().isoformat(timespec="seconds"),
         "split": split,
         "runs": runs,
+        "max_repairs": max_repairs,
         "number_of_questions": number_of_questions,
         "correct_per_run": [x_of_n(c, number_of_questions) for c in correct_per_run],
         "median_correct": x_of_n(statistics.median(correct_per_run), number_of_questions),
@@ -207,7 +249,15 @@ def summarize(details, model, split, runs):
         "label_counts": {label: count_label(details, [label]) for label in LABELS},
         "label_counts_per_run": [{label: count_label(by_run[run], [label]) for label in LABELS}
                                  for run in run_numbers],
+        "needed_repair_per_run": [len(records) for records in needed_repair],
+        "fixed_by_repair_per_run": [count_label(records, CORRECT_LABELS)
+                                    for records in needed_repair],
+        "average_llm_calls_per_question": round(
+            statistics.mean(record["attempts"] or 0 for record in details), 2),
         "average_seconds_per_question": round(
             statistics.mean(record["seconds"] for record in details), 2),
         "changed_between_runs": changed,
     }
+    if baseline_details is not None:
+        summary["changed_vs_baseline"] = compare_with_baseline(details, baseline_details)
+    return summary
