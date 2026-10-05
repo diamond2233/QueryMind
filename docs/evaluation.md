@@ -102,7 +102,7 @@ So in Q3, `evalcheck.run_sql_rows` did exactly what `run_query` does (the same
 
 **Update in Q4:** this is no longer needed. `run_query` itself now returns real rows, and
 both the app and the evaluation go through the same function,
-`querymind.answer_with_repair`. See `docs/Q4_EXPLAINED.md`.
+`querymind.answer_with_repair`. See `docs/repair-loop.md`.
 
 ## How to run the evaluation yourself
 

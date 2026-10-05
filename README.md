@@ -116,7 +116,7 @@ Execution accuracy on 30 questions (the model's SQL must return the same rows as
 SQL), `gpt-4.1-mini`, 3 runs each. All three runs gave the same score. Numbers come from
 `results/baseline.json` and `results/repair_loop.json` (the baseline's LLM-call count from
 `results/repair0_check.json`, a re-run with repairs off that matched the baseline exactly);
-see `docs/Q3_EXPLAINED.md` and `docs/Q4_EXPLAINED.md`.
+see `docs/evaluation.md` and `docs/repair-loop.md`.
 
 | | Baseline (no repairs) | Repair loop (up to 2 repairs) |
 |---|---|---|
@@ -161,7 +161,8 @@ results/                  baseline.json, repair0_check.json, repair_loop.json
                           (+ a *_details.json file for each)
 tests/                    test_guard.py, test_pipeline.py, test_compare.py,
                           test_run_eval.py, test_repair.py
-docs/                     Q1_EXPLAINED.md … Q4_EXPLAINED.md, plain-language explanations
+docs/                     plain-language explanations: safety-guard.md, test-set.md,
+                          evaluation.md, repair-loop.md
 Data_CSV/                 the six source CSV files for the text_to_sql database
 requirements.txt          pinned Python dependencies
 pytest.ini                test settings
