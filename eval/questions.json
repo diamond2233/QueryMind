@@ -1,0 +1,212 @@
+[
+  {
+    "id": "q01",
+    "difficulty": "easy",
+    "question": "What was the 2017 budget for Product 5?",
+    "gold_sql": "SELECT `2017 Budgets` FROM `2017_budgets` WHERE `Product Name` = 'Product 5'",
+    "split": "dev"
+  },
+  {
+    "id": "q02",
+    "difficulty": "easy",
+    "question": "What is the name of customer number 42?",
+    "gold_sql": "SELECT `Customer Names` FROM customers WHERE `Customer Index` = 42",
+    "split": "test"
+  },
+  {
+    "id": "q03",
+    "difficulty": "easy",
+    "question": "Which states belong to the Northeast region?",
+    "gold_sql": "SELECT `State` FROM state_regions WHERE `Region` = 'Northeast'",
+    "split": "test"
+  },
+  {
+    "id": "q04",
+    "difficulty": "easy",
+    "question": "How many people live in Auburn, Alabama?",
+    "gold_sql": "SELECT population FROM regions WHERE name = 'Auburn' AND state_code = 'AL'",
+    "split": "dev"
+  },
+  {
+    "id": "q05",
+    "difficulty": "easy",
+    "question": "Which time zone is Birmingham, Alabama in?",
+    "gold_sql": "SELECT time_zone FROM regions WHERE name = 'Birmingham' AND state_code = 'AL'",
+    "split": "test"
+  },
+  {
+    "id": "q06",
+    "difficulty": "easy",
+    "question": "Which sales channels do we sell through?",
+    "gold_sql": "SELECT DISTINCT `Channel` FROM sales_order",
+    "split": "dev"
+  },
+  {
+    "id": "q07",
+    "difficulty": "easy",
+    "question": "Which products had a 2017 budget of more than 5 million?",
+    "gold_sql": "SELECT `Product Name` FROM `2017_budgets` WHERE `2017 Budgets` > 5000000",
+    "split": "test"
+  },
+  {
+    "id": "q08",
+    "difficulty": "easy",
+    "question": "What is the two-letter code for the state of Texas?",
+    "gold_sql": "SELECT `State Code` FROM state_regions WHERE `State` = 'Texas'",
+    "split": "test"
+  },
+  {
+    "id": "q09",
+    "difficulty": "medium",
+    "question": "How many customers do we have?",
+    "gold_sql": "SELECT COUNT(*) FROM customers",
+    "split": "dev"
+  },
+  {
+    "id": "q10",
+    "difficulty": "medium",
+    "question": "What was the total 2017 budget for all products together?",
+    "gold_sql": "SELECT SUM(`2017 Budgets`) FROM `2017_budgets`",
+    "split": "test"
+  },
+  {
+    "id": "q11",
+    "difficulty": "medium",
+    "question": "How many order lines were sold through the Export channel?",
+    "gold_sql": "SELECT COUNT(*) FROM sales_order WHERE `Channel` = 'Export'",
+    "split": "test"
+  },
+  {
+    "id": "q12",
+    "difficulty": "medium",
+    "question": "What were our total sales in 2023?",
+    "gold_sql": "SELECT SUM(`Line Total`) FROM sales_order WHERE `OrderDate` >= '2023-01-01' AND `OrderDate` < '2024-01-01'",
+    "split": "dev"
+  },
+  {
+    "id": "q13",
+    "difficulty": "medium",
+    "question": "Which warehouse handled the most order lines?",
+    "gold_sql": "SELECT `Warehouse Code` FROM sales_order GROUP BY `Warehouse Code` ORDER BY COUNT(*) DESC LIMIT 1",
+    "split": "test"
+  },
+  {
+    "id": "q14",
+    "difficulty": "medium",
+    "question": "How many states are there in each region?",
+    "gold_sql": "SELECT `Region`, COUNT(*) FROM state_regions GROUP BY `Region`",
+    "split": "dev"
+  },
+  {
+    "id": "q15",
+    "difficulty": "medium",
+    "question": "What is the average median income of the places we have in California?",
+    "gold_sql": "SELECT AVG(median_income) FROM regions WHERE state_code = 'CA'",
+    "split": "test"
+  },
+  {
+    "id": "q16",
+    "difficulty": "medium",
+    "question": "How many order lines did we have in January 2024?",
+    "gold_sql": "SELECT COUNT(*) FROM sales_order WHERE `OrderDate` >= '2024-01-01' AND `OrderDate` < '2024-02-01'",
+    "split": "test"
+  },
+  {
+    "id": "q17",
+    "difficulty": "join",
+    "question": "What were our total sales to Geiss Company?",
+    "gold_sql": "SELECT SUM(s.`Line Total`) FROM sales_order s JOIN customers c ON s.`Customer Name Index` = c.`Customer Index` WHERE c.`Customer Names` = 'Geiss Company'",
+    "split": "dev"
+  },
+  {
+    "id": "q18",
+    "difficulty": "join",
+    "question": "Which product has sold the most units overall?",
+    "gold_sql": "SELECT p.`Product Name` FROM sales_order s JOIN products p ON s.`Product Description Index` = p.`Index` GROUP BY p.`Product Name` ORDER BY SUM(s.`Order Quantity`) DESC LIMIT 1",
+    "split": "test"
+  },
+  {
+    "id": "q19",
+    "difficulty": "join",
+    "question": "Which part of the country (South, West, Northeast or Midwest) is Auburn, Alabama in?",
+    "gold_sql": "SELECT sr.`Region` FROM regions r JOIN state_regions sr ON r.state_code = sr.`State Code` WHERE r.name = 'Auburn' AND r.state_code = 'AL'",
+    "split": "test"
+  },
+  {
+    "id": "q20",
+    "difficulty": "join",
+    "question": "How many of the places we have are in the Midwest?",
+    "gold_sql": "SELECT COUNT(*) FROM regions r JOIN state_regions sr ON r.state_code = sr.`State Code` WHERE sr.`Region` = 'Midwest'",
+    "split": "dev"
+  },
+  {
+    "id": "q21",
+    "difficulty": "join",
+    "question": "Which customer had the most order lines in 2024?",
+    "gold_sql": "SELECT c.`Customer Names` FROM sales_order s JOIN customers c ON s.`Customer Name Index` = c.`Customer Index` WHERE s.`OrderDate` >= '2024-01-01' AND s.`OrderDate` < '2025-01-01' GROUP BY c.`Customer Names` ORDER BY COUNT(*) DESC LIMIT 1",
+    "split": "test"
+  },
+  {
+    "id": "q22",
+    "difficulty": "join",
+    "question": "What were our total sales delivered to places in Texas?",
+    "gold_sql": "SELECT SUM(s.`Line Total`) FROM sales_order s JOIN regions r ON s.`Delivery Region Index` = r.id WHERE r.state_code = 'TX'",
+    "split": "test"
+  },
+  {
+    "id": "q23",
+    "difficulty": "join",
+    "question": "Which product had the highest sales in 2022?",
+    "gold_sql": "SELECT p.`Product Name` FROM sales_order s JOIN products p ON s.`Product Description Index` = p.`Index` WHERE s.`OrderDate` >= '2022-01-01' AND s.`OrderDate` < '2023-01-01' GROUP BY p.`Product Name` ORDER BY SUM(s.`Line Total`) DESC LIMIT 1",
+    "split": "test"
+  },
+  {
+    "id": "q24",
+    "difficulty": "join",
+    "question": "Who are our top 3 customers by total sales?",
+    "gold_sql": "SELECT c.`Customer Names` FROM sales_order s JOIN customers c ON s.`Customer Name Index` = c.`Customer Index` GROUP BY c.`Customer Names` ORDER BY SUM(s.`Line Total`) DESC LIMIT 3",
+    "split": "test"
+  },
+  {
+    "id": "q25",
+    "difficulty": "hard",
+    "question": "What were our total sales in each part of the country (South, West, Northeast, Midwest)?",
+    "gold_sql": "SELECT sr.`Region`, SUM(s.`Line Total`) FROM sales_order s JOIN regions r ON s.`Delivery Region Index` = r.id JOIN state_regions sr ON r.state_code = sr.`State Code` GROUP BY sr.`Region`",
+    "split": "dev"
+  },
+  {
+    "id": "q26",
+    "difficulty": "hard",
+    "question": "Which customers have more than 500 order lines in total?",
+    "gold_sql": "SELECT c.`Customer Names` FROM sales_order s JOIN customers c ON s.`Customer Name Index` = c.`Customer Index` GROUP BY c.`Customer Names` HAVING COUNT(*) > 500",
+    "split": "test"
+  },
+  {
+    "id": "q27",
+    "difficulty": "hard",
+    "question": "Which product sold the most units in the West?",
+    "gold_sql": "SELECT p.`Product Name` FROM sales_order s JOIN products p ON s.`Product Description Index` = p.`Index` JOIN regions r ON s.`Delivery Region Index` = r.id JOIN state_regions sr ON r.state_code = sr.`State Code` WHERE sr.`Region` = 'West' GROUP BY p.`Product Name` ORDER BY SUM(s.`Order Quantity`) DESC LIMIT 1",
+    "split": "test"
+  },
+  {
+    "id": "q28",
+    "difficulty": "hard",
+    "question": "Who was our biggest customer by sales in the South in 2024?",
+    "gold_sql": "SELECT c.`Customer Names` FROM sales_order s JOIN customers c ON s.`Customer Name Index` = c.`Customer Index` JOIN regions r ON s.`Delivery Region Index` = r.id JOIN state_regions sr ON r.state_code = sr.`State Code` WHERE sr.`Region` = 'South' AND s.`OrderDate` >= '2024-01-01' AND s.`OrderDate` < '2025-01-01' GROUP BY c.`Customer Names` ORDER BY SUM(s.`Line Total`) DESC LIMIT 1",
+    "split": "dev"
+  },
+  {
+    "id": "q29",
+    "difficulty": "hard",
+    "question": "Which products sold more in total than the average product?",
+    "gold_sql": "SELECT p.`Product Name` FROM sales_order s JOIN products p ON s.`Product Description Index` = p.`Index` GROUP BY p.`Product Name` HAVING SUM(s.`Line Total`) > (SELECT AVG(product_sales) FROM (SELECT SUM(`Line Total`) AS product_sales FROM sales_order GROUP BY `Product Description Index`) AS per_product)",
+    "split": "test"
+  },
+  {
+    "id": "q30",
+    "difficulty": "hard",
+    "question": "For each sales channel, which product brought in the most sales?",
+    "gold_sql": "WITH channel_sales AS (SELECT s.`Channel`, p.`Product Name`, SUM(s.`Line Total`) AS sales, RANK() OVER (PARTITION BY s.`Channel` ORDER BY SUM(s.`Line Total`) DESC) AS sales_rank FROM sales_order s JOIN products p ON s.`Product Description Index` = p.`Index` GROUP BY s.`Channel`, p.`Product Name`) SELECT `Channel`, `Product Name` FROM channel_sales WHERE sales_rank = 1",
+    "split": "test"
+  }
+]
