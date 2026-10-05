@@ -114,14 +114,69 @@ def generate_sql(question):
     return clean_sql(text)
 
 
+class UnsafeSQLError(Exception):
+    """Raised when SQL written by the LLM does not pass check_sql_is_safe."""
+
+
+BLOCKED_WORDS = [
+    "INSERT", "UPDATE", "DELETE", "DROP", "ALTER",
+    "TRUNCATE", "CREATE", "GRANT", "REPLACE",
+]
+
+
+def check_sql_is_safe(sql):
+    """Check LLM-written SQL before it runs. Returns the SQL (with LIMIT 100 added if
+    there is no LIMIT) or raises UnsafeSQLError.
+
+    This is a simple blocklist, not a SQL parser. The words are searched in the whole
+    text, so a blocked word inside a quoted string is also rejected, e.g.
+    WHERE name = 'Drop Shipping'. We accept that false positive: rejecting a safe
+    query is much better than running a dangerous one. The real protection is a
+    read-only MySQL user (see README).
+    """
+    sql = sql.strip()
+    # One trailing ';' is fine, remove it.
+    if sql.endswith(";"):
+        sql = sql[:-1].strip()
+
+    if not sql:
+        raise UnsafeSQLError("The SQL is empty.")
+
+    # Comments can hide things from a human reading the query, so reject them.
+    if "--" in sql or "/*" in sql:
+        raise UnsafeSQLError("SQL comments (-- or /*) are not allowed.")
+
+    # Any ';' left means more than one statement, e.g. "SELECT 1; DROP TABLE x".
+    if ";" in sql:
+        raise UnsafeSQLError("Only one SQL statement is allowed.")
+
+    if not re.match(r"(SELECT|WITH)\b", sql, re.IGNORECASE):
+        raise UnsafeSQLError("Only SELECT (or WITH ... SELECT) queries are allowed.")
+
+    # \b means "whole word": UPDATE is blocked but a column named update_date is not.
+    for word in BLOCKED_WORDS:
+        if re.search(r"\b" + word + r"\b", sql, re.IGNORECASE):
+            raise UnsafeSQLError(f"The word {word} is not allowed.")
+
+    # Never return a huge result: add LIMIT 100 if the query has no LIMIT.
+    if not re.search(r"\bLIMIT\b", sql, re.IGNORECASE):
+        sql = sql + " LIMIT 100"
+
+    return sql
+
+
 def run_query(sql):
-    """Run the SQL on MySQL and return the result rows (as a string)."""
-    return get_db().run(sql)
+    """Check the SQL with check_sql_is_safe, then run it on MySQL and return the
+    result rows (as a string). Unsafe SQL raises UnsafeSQLError and never runs."""
+    safe_sql = check_sql_is_safe(sql)
+    return get_db().run(safe_sql)
 
 
 def answer_question(question):
     """Full pipeline: question -> SQL -> rows -> natural-language answer."""
-    sql = generate_sql(question)
+    # Check here too, so the SQL we return and explain is exactly the SQL that ran
+    # (with LIMIT 100 if it was added). run_query checks again, which is harmless.
+    sql = check_sql_is_safe(generate_sql(question))
     rows = run_query(sql)
 
     chain = ChatPromptTemplate.from_template(ANSWER_TEMPLATE) | get_llm() | StrOutputParser()
@@ -135,7 +190,12 @@ def main():
         print('Usage: python querymind.py "your question"')
         sys.exit(1)
 
-    result = answer_question(sys.argv[1])
+    try:
+        result = answer_question(sys.argv[1])
+    except UnsafeSQLError as error:
+        print("Refused to run the generated SQL:", error)
+        sys.exit(1)
+
     print("Question:", result["question"])
     print("SQL:     ", result["sql"])
     print("Rows:    ", result["rows"])

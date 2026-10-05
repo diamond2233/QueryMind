@@ -67,6 +67,25 @@ and turns the result back into a plain-language answer.
 
    Or open `querymind_openai.ipynb` for the demo and the RAGAS evaluation.
 
+## Safety
+
+The SQL is written by an LLM, so it is never run unchecked. `check_sql_is_safe` (called inside
+`run_query`) only allows a single `SELECT`/`WITH` statement, rejects write/DDL keywords
+(`INSERT`, `UPDATE`, `DELETE`, `DROP`, `ALTER`, `TRUNCATE`, `CREATE`, `GRANT`, `REPLACE`), SQL
+comments and extra `;`, and adds `LIMIT 100` when there is no `LIMIT`. Unsafe SQL raises
+`UnsafeSQLError`.
+
+That check is only a blocklist and can be wrong in both directions. **The real protection is a
+read-only MySQL user**: even if a bad query got through, MySQL itself would refuse to change
+anything. Create one (as an admin user) and put it in your `.env`:
+
+```sql
+CREATE USER 'querymind_ro'@'localhost' IDENTIFIED BY 'choose-a-strong-password';
+GRANT SELECT ON text_to_sql.* TO 'querymind_ro'@'localhost';
+```
+
+Then set `MYSQL_USER=querymind_ro` and `MYSQL_PASSWORD=...` in `.env`.
+
 ## Note
 
 Keep API keys and database credentials out of version control — `querymind.py` reads them from
